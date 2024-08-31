@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <link rel="shortcut icon" href="./img/logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="./css/common.css" />
+    <link rel="stylesheet" href="./css/signup.css">
+    <link rel="stylesheet" href="./css/fonts.css">
+    <link rel="stylesheet" href="./css/checkbox.css">
+    <link rel="stylesheet" href="./css/button.css">
+    <link rel="stylesheet" href="./css/landscape_format.css">
+</head>
+
+<body>
+    <img class="logo" src="./img/logo_white.svg" alt="">
+
+    <div class="signup_container">
+        <div class="head_container">
+            <a href="./index.html">
+                <div class="arrow-container">
+                    <svg class="arrow" width="22" height="20" viewBox="0 0 22 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M4.93725 8.66673H19.8333C20.5696 8.66673 21.1666 9.26368 21.1666 10.0001C21.1666 10.7364 20.5696 11.3334 19.8333 11.3334H4.93725L11.1466 17.5427C11.6672 18.0634 11.6672 18.9074 11.1466 19.4281C10.626 19.9487 9.78187 19.9487 9.26125 19.4281L1.24746 11.4143C0.466415 10.6332 0.466417 9.3669 1.24747 8.58585L9.26125 0.57206C9.78187 0.0514398 10.626 0.0514406 11.1466 0.572061C11.6672 1.09268 11.6672 1.93677 11.1466 2.45739L4.93725 8.66673Z"
+                            fill="#005DFF" />
+                    </svg>
+                </div>
+            </a>
+
+            <h1>Sign up</h1>
+        </div>
+
+        <div class="blue_underline"></div>
+        <form id="signupForm">
+            <div class="input_container">
+                <input placeholder="Name" name="user_name" type="text" required>
+                <img src="./img/person.png" alt="User Name">
+            </div>
+            <div class="input_container" id="email-input">
+                <input placeholder="Email" id="user_email" name="user_email" type="email" required>
+                <img src="./img/mail.png" alt="Email">
+            </div>
+            <div class="input_container">
+                <input placeholder="Password" name="user_password" type="password" required>
+                <img src="./img/lock.png" alt="Password">
+            </div>
+            <div class="input_container" id="confirm-input">
+                <input placeholder="Confirm Password" id="user_password_confirm" name="user_password_confirm"
+                    type="password" required>
+                <img src="./img/lock.png" alt="Confirm Password">
+            </div>
+
+            <div class="hidden_container d_none" id="password-error">Your password doesn't match.</div>
+            <div class="hidden_container d_none" id="email-error">This email already exists</div>
+
+            <div class="button_container">
+                <div class="privacy_container">
+                    <label class="cr-wrapper">
+                        <input type="checkbox" name="user_checkbox" required />
+                        <div class="cr-input"></div>
+                    </label>
+                    <div>
+                        I accept the
+                        <a href="#">Privacy policy</a>
+                    </div>
+
+                </div>
+                <button class="btn blue">Sign up</button>
+            </div>
+        </form>
+    </div>
+
+    <footer class="signup_footer">
+        <a class="link_white" href="./privacy_policy.html">Privacy Policy</a>
+        <a class="link_white" href="./legal_notice.html">Legal notice</a>
+    </footer>
+
+    <div class="popup_container" id="popup_container">
+        <span class="popup" id="popup">You signed Up successfully</span>
+    </div>
+
+    <div id="landscape-format-message" class="landscape_format_message">
+        <div id="landscape-format-message-container" class="landscape_format_message_container">Please switch back to portrait format.</div>
+    </div>
+
+    <script src="./js/script.js"></script>
+    <script defer src="./js/signup.js"></script>
+</body>
+
+</html>

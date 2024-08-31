@@ -1,0 +1,76 @@
+.cr-wrapper *,
+.cr-wrapper *::before,
+.cr-wrapper *::after {
+	box-sizing: content-box !important;
+}
+
+.cr-wrapper input {
+	position: absolute;
+	z-index: -1;
+	opacity: 0;
+}
+
+.cr-wrapper {
+	display: table;
+	position: relative;
+	padding-left: 30px;
+	cursor: pointer;
+}
+
+.cr-wrapper input[type="checkbox"] ~ .cr-input {
+	position: absolute;
+	top: 50%;
+	left: 0;
+	height: 20px;
+	width: 20px;
+	transition: background 250ms, transform 0.1s ease-in-out, box-shadow 0.1s ease-in-out;
+	border: 1px solid #4589FF;
+	border-radius: 5px;
+	transform: translateY(-50%);
+	box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
+}
+
+.cr-wrapper input[type="checkbox"] ~ .cr-input::after {
+	content: "";
+	position: absolute;
+	display: none;
+	left: 2px;
+	top: 2px;
+	width: 16px;
+	height: 16px;
+	transition: background 250ms;
+	background-color: #4589FF;
+	clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+}
+
+.cr-wrapper input:checked ~ .cr-input::after {
+	display: block;
+}
+
+.cr-wrapper:hover input[type="checkbox"]:not([disabled]) ~ .cr-input,
+.cr-wrapper input[type="checkbox"]:focus ~ .cr-input {
+	background: #E2E8F0;
+	border-color: #005DFF;
+}
+
+.cr-wrapper input[type="checkbox"]:checked ~ .cr-input {
+	background: #FFFFFF;
+	border-color: #4589FF;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    transform: translateY(-50%) scale(0.95);
+}
+
+.cr-wrapper input[type="checkbox"]:disabled ~ .cr-input {
+	opacity: 0.9;
+	cursor: not-allowed;
+}
+
+.cr-wrapper input[type="checkbox"]:disabled ~ .cr-input::after {
+	background: #4589FF;
+}
+
+.cr-wrapper:hover input[type="checkbox"]:not([disabled]):checked ~ .cr-input,
+.cr-wrapper input[type="checkbox"]:checked:focus ~ .cr-input {
+	background: #E2E8F0;
+	border-color: #005DFF;
+}

@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contacts</title>
+
+
+    <script src="./js/script.js"></script>
+    <script src="./js/include_html.js"></script>
+    <script src="./js/contacts.js"></script>
+    <script src="./js/contacts_support_functions.js"></script>
+    <script src="./js/contacts_templates.js"></script>
+
+    <link rel="shortcut icon" href="./img/logo.png" type="image/x-icon" />
+    <link rel="stylesheet" href="./css/contacts.css">
+    <link rel="stylesheet" href="./css/fonts.css">
+    <link rel="stylesheet" href="./css/template_header.css">
+    <link rel="stylesheet" href="./css/template_sidebar.css">
+    <link rel="stylesheet" href="./css/common.css">
+</head>
+
+<body onload="init()">
+
+    <div w3-include-html="template_header.html"></div>
+    <div class="contacts_sidebar" w3-include-html="template_sidebar.html"></div>
+
+    <div class="popup_container" id="creation_popup_container">
+        <span class="popup" id="creation_popup">Contact successfully created</span>
+    </div>
+
+    <div class="popup_container" id="update_popup_container">
+        <span class="popup" id="update_popup">Contact sucessfully edited</span>
+    </div>
+
+    <div class="popup_container" id="delete_popup_container">
+        <span class="popup" id="delete_popup">Contact successfully deleted</span>
+    </div>
+
+    <div class="main-container d-flex row">
+
+        <!-- contacts main-side -->
+        <div class="contacts-main-container d-flex column">
+            <div onclick="openAddContactOverlay()" class="btn blue click-animation mg-top mg-bottom blue-small">
+                <div class="add-contact-button-text">
+                    Add new contact
+                </div>
+                <div class="add-contact-button-img">
+                    <svg width="33" height="32" viewBox="0 0 33 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <mask id="mask0_43661_2572" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
+                            width="33" height="32">
+                            <rect x="0.5" width="32" height="32" fill="#D9D9D9" />
+                        </mask>
+                        <g mask="url(#mask0_43661_2572)">
+                            <path
+                                d="M25.8294 18.6667C25.5134 18.6667 25.2499 18.5602 25.0388 18.3473C24.8277 18.1343 24.7222 17.8704 24.7222 17.5556V14.4445H21.611C21.2962 14.4445 21.0323 14.3376 20.8194 14.1239C20.6064 13.9102 20.4999 13.6454 20.4999 13.3295C20.4999 13.0136 20.6064 12.7501 20.8194 12.5389C21.0323 12.3278 21.2962 12.2223 21.611 12.2223H24.7222V9.11115C24.7222 8.79635 24.829 8.53246 25.0427 8.31948C25.2564 8.10653 25.5212 8.00005 25.8372 8.00005C26.1531 8.00005 26.4166 8.10653 26.6277 8.31948C26.8388 8.53246 26.9444 8.79635 26.9444 9.11115V12.2223H30.0555C30.3703 12.2223 30.6342 12.3291 30.8472 12.5428C31.0601 12.7566 31.1666 13.0214 31.1666 13.3373C31.1666 13.6532 31.0601 13.9167 30.8472 14.1278C30.6342 14.3389 30.3703 14.4445 30.0555 14.4445H26.9444V17.5556C26.9444 17.8704 26.8375 18.1343 26.6238 18.3473C26.4101 18.5602 26.1453 18.6667 25.8294 18.6667ZM12.4999 15.9778C11.0333 15.9778 9.81473 15.4926 8.84435 14.5223C7.874 13.5519 7.38882 12.3334 7.38882 10.8667C7.38882 9.40005 7.874 8.18154 8.84435 7.21118C9.81473 6.2408 11.0333 5.75562 12.4999 5.75562C13.9666 5.75562 15.1851 6.2408 16.1555 7.21118C17.1258 8.18154 17.611 9.40005 17.611 10.8667C17.611 12.3334 17.1258 13.5519 16.1555 14.5223C15.1851 15.4926 13.9666 15.9778 12.4999 15.9778ZM2.94435 26.6667C2.62955 26.6667 2.36566 26.5602 2.15269 26.3473C1.93973 26.1343 1.83325 25.8704 1.83325 25.5556V23.3334C1.83325 22.563 2.0314 21.8612 2.42769 21.2279C2.824 20.5945 3.3666 20.1186 4.05549 19.8C5.62586 19.0815 7.08022 18.5649 8.41855 18.25C9.75691 17.9352 11.1162 17.7779 12.4963 17.7779C13.8765 17.7779 15.237 17.9352 16.5777 18.25C17.9184 18.5649 19.3666 19.0815 20.9222 19.8C21.611 20.1334 22.1573 20.613 22.561 21.2389C22.9647 21.8649 23.1666 22.563 23.1666 23.3334V25.5556C23.1666 25.8704 23.0601 26.1343 22.8472 26.3473C22.6342 26.5602 22.3703 26.6667 22.0555 26.6667H2.94435ZM4.05545 24.4445H20.9444V23.3334C20.9444 23.0149 20.8648 22.7149 20.7055 22.4334C20.5462 22.1519 20.3073 21.9408 19.9888 21.8C18.5518 21.0963 17.2629 20.6204 16.1222 20.3723C14.9814 20.1241 13.774 20 12.4999 20C11.2259 20 10.0184 20.1278 8.87769 20.3834C7.73695 20.6389 6.44066 21.1112 4.98882 21.8C4.69991 21.9408 4.47212 22.1519 4.30545 22.4334C4.13879 22.7149 4.05545 23.0149 4.05545 23.3334V24.4445ZM12.4999 13.7556C13.3221 13.7556 14.0092 13.4797 14.561 12.9278C15.1129 12.376 15.3888 11.6889 15.3888 10.8667C15.3888 10.0445 15.1129 9.35746 14.561 8.80562C14.0092 8.25375 13.3221 7.97782 12.4999 7.97782C11.6777 7.97782 10.9907 8.25375 10.4388 8.80562C9.88695 9.35746 9.61102 10.0445 9.61102 10.8667C9.61102 11.6889 9.88695 12.376 10.4388 12.9278C10.9907 13.4797 11.6777 13.7556 12.4999 13.7556Z"
+                                fill="white" />
+                        </g>
+                    </svg>
+                </div>
+            </div>
+            <div class="contact-book d-flex column">
+                <div id="contact-filter" class="filter d-flex column">
+                    <!-- generated contacts here -->
+                </div>
+            </div>
+        </div>
+        <!-- *-*-*-* -->
+
+        <!-- selected contact template -->
+        <div id="selected-container" class="selected-contact-container d-none">
+
+        </div>
+        <!-- *-*-*-* -->
+    </div>
+
+
+    <!-- overlay_add-contact -->
+    <div id="overlay_add-contact" class="d-none">
+        <div onclick="closeAddContactOverlay()" id="close-add-area"></div>
+        <div class="add-contact_main-container">
+            <div class="add-contact_top-area d-flex_column">
+                <div class="close-container d-flex_column">
+                    <div onclick="closeAddContactOverlay()" class="x-button click-animation">
+                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <mask id="mask0_19024_6446" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="4" y="4"
+                                width="24" height="24">
+                                <rect x="4" y="4" width="24" height="24" fill="#D9D9D9" />
+                            </mask>
+                            <g mask="url(#mask0_19024_6446)">
+                                <path
+                                    d="M16 17.8642L9.46667 24.389C9.22223 24.6331 8.91112 24.7552 8.53334 24.7552C8.15556 24.7552 7.84445 24.6331 7.6 24.389C7.35556 24.1449 7.23334 23.8342 7.23334 23.4569C7.23334 23.0796 7.35556 22.7689 7.6 22.5248L14.1333 16L7.6 9.47527C7.35556 9.23115 7.23334 8.92045 7.23334 8.54316C7.23334 8.16588 7.35556 7.85518 7.6 7.61106C7.84445 7.36693 8.15556 7.24487 8.53334 7.24487C8.91112 7.24487 9.22223 7.36693 9.46667 7.61106L16 14.1358L22.5333 7.61106C22.7778 7.36693 23.0889 7.24487 23.4667 7.24487C23.8444 7.24487 24.1556 7.36693 24.4 7.61106C24.6444 7.85518 24.7667 8.16588 24.7667 8.54316C24.7667 8.92045 24.6444 9.23115 24.4 9.47527L17.8667 16L24.4 22.5248C24.6444 22.7689 24.7667 23.0796 24.7667 23.4569C24.7667 23.8342 24.6444 24.1449 24.4 24.389C24.1556 24.6331 23.8444 24.7552 23.4667 24.7552C23.0889 24.7552 22.7778 24.6331 22.5333 24.389L16 17.8642Z"
+                                    fill="white" />
+                            </g>
+                        </svg>
+                    </div>
+                </div>
+                <div class="content-container d-flex column">
+                    <div class="logo">
+                        <svg width="46" height="56" viewBox="0 0 46 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M32.9078 -0.000244141H22.7341V11.7044H32.9078V-0.000244141Z" fill="white" />
+                            <path
+                                d="M22.7342 21.2239H32.9079V37.7315C32.9544 41.7036 31.8239 45.6 29.6602 48.9252C27.5237 52.1559 23.3994 55.9998 15.7692 55.9998C7.45808 55.9998 2.61385 52.0695 0 49.9156L6.41724 41.9998C8.96848 44.0829 11.4258 45.7966 15.8083 45.7966C19.1265 45.7966 20.4491 44.4445 21.2238 43.2654C22.2771 41.6277 22.8219 39.7124 22.789 37.7629L22.7342 21.2239Z"
+                                fill="white" />
+                            <path d="M17.5457 13.8347H7.37207V24.0537H17.5457V13.8347Z" fill="white" />
+                            <path
+                                d="M38.2374 51.2047C38.2374 53.3821 37.134 54.5534 35.5923 54.5534C34.0506 54.5534 33.041 53.162 33.041 51.3147C33.041 49.4675 34.0819 48.0054 35.6783 48.0054C37.2748 48.0054 38.2374 49.4439 38.2374 51.2047ZM34.2227 51.2912C34.2227 52.6039 34.7471 53.5708 35.647 53.5708C36.547 53.5708 37.0557 52.5489 37.0557 51.2126C37.0557 50.0413 36.5861 48.9408 35.647 48.9408C34.7079 48.9408 34.2227 50.002 34.2227 51.2912Z"
+                                fill="white" />
+                            <path d="M40.2563 48.0999V54.4513H39.1294V48.0999H40.2563Z" fill="white" />
+                            <path
+                                d="M41.4773 54.4513V48.0999H42.7294L44.0755 50.7175C44.422 51.4019 44.7303 52.1053 44.9989 52.8242C44.9285 52.0381 44.8972 51.1341 44.8972 50.1279V48.0999H45.9302V54.4513H44.7642L43.4025 51.7787C43.0419 51.0766 42.7206 50.3549 42.4399 49.617C42.4399 50.4031 42.4947 51.2913 42.4947 52.384V54.4435L41.4773 54.4513Z"
+                                fill="white" />
+                        </svg>
+
+                    </div>
+                    <div class="headline-text">Add Contact</div>
+                    <div class="underline-text">Tasks are better with a Team!</div>
+                    <div class="profile-img contact-container-img-overlay">
+                        <svg width="134" height="134" viewBox="0 0 134 134" fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <g filter="url(#filter0_d_753_4544)">
+                                <rect x="7" y="7" width="120" height="120" rx="60" fill="white" />
+                                <rect x="5.5" y="5.5" width="123" height="123" rx="61.5" stroke="white"
+                                    stroke-width="3" />
+                                <circle cx="67" cy="67" r="60" fill="#D1D1D1" />
+                                <mask id="mask0_753_4544" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="35"
+                                    y="35" width="64" height="64">
+                                    <rect x="35" y="35" width="64" height="64" fill="#D9D9D9" />
+                                </mask>
+                                <g mask="url(#mask0_753_4544)">
+                                    <path
+                                        d="M67.0003 67.0003C64.067 67.0003 61.5559 65.9559 59.467 63.867C57.3781 61.7781 56.3337 59.267 56.3337 56.3337C56.3337 53.4003 57.3781 50.8892 59.467 48.8003C61.5559 46.7114 64.067 45.667 67.0003 45.667C69.9337 45.667 72.4448 46.7114 74.5337 48.8003C76.6225 50.8892 77.667 53.4003 77.667 56.3337C77.667 59.267 76.6225 61.7781 74.5337 63.867C72.4448 65.9559 69.9337 67.0003 67.0003 67.0003ZM83.0003 88.3337H51.0003C49.5337 88.3337 48.2781 87.8114 47.2337 86.767C46.1892 85.7225 45.667 84.467 45.667 83.0003V80.867C45.667 79.3559 46.0559 77.967 46.8337 76.7003C47.6114 75.4337 48.6448 74.467 49.9337 73.8003C52.6892 72.4225 55.4892 71.3892 58.3337 70.7003C61.1781 70.0114 64.067 69.667 67.0003 69.667C69.9337 69.667 72.8225 70.0114 75.667 70.7003C78.5114 71.3892 81.3114 72.4225 84.067 73.8003C85.3559 74.467 86.3892 75.4337 87.167 76.7003C87.9448 77.967 88.3337 79.3559 88.3337 80.867V83.0003C88.3337 84.467 87.8114 85.7225 86.767 86.767C85.7225 87.8114 84.467 88.3337 83.0003 88.3337ZM51.0003 83.0003H83.0003V80.867C83.0003 80.3781 82.8781 79.9337 82.6337 79.5337C82.3892 79.1337 82.067 78.8225 81.667 78.6003C79.267 77.4003 76.8448 76.5003 74.4003 75.9003C71.9559 75.3003 69.4892 75.0003 67.0003 75.0003C64.5114 75.0003 62.0448 75.3003 59.6003 75.9003C57.1559 76.5003 54.7337 77.4003 52.3337 78.6003C51.9337 78.8225 51.6114 79.1337 51.367 79.5337C51.1225 79.9337 51.0003 80.3781 51.0003 80.867V83.0003ZM67.0003 61.667C68.467 61.667 69.7225 61.1448 70.767 60.1003C71.8114 59.0559 72.3337 57.8003 72.3337 56.3337C72.3337 54.867 71.8114 53.6114 70.767 52.567C69.7225 51.5225 68.467 51.0003 67.0003 51.0003C65.5337 51.0003 64.2781 51.5225 63.2337 52.567C62.1892 53.6114 61.667 54.867 61.667 56.3337C61.667 57.8003 62.1892 59.0559 63.2337 60.1003C64.2781 61.1448 65.5337 61.667 67.0003 61.667Z"
+                                        fill="white" />
+                                </g>
+                            </g>
+                            <defs>
+                                <filter id="filter0_d_753_4544" x="0" y="0" width="134" height="134"
+                                    filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                                    <feFlood flood-opacity="0" result="BackgroundImageFix" />
+                                    <feColorMatrix in="SourceAlpha" type="matrix"
+                                        values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha" />
+                                    <feOffset />
+                                    <feGaussianBlur stdDeviation="2" />
+                                    <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.1 0" />
+                                    <feBlend mode="normal" in2="BackgroundImageFix"
+                                        result="effect1_dropShadow_753_4544" />
+                                    <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_753_4544"
+                                        result="shape" />
+                                </filter>
+                            </defs>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+            <div class="add-contact_bottom-area d-flex_column">
+                <form id="add-contact-form" onsubmit="return addContact(event)" class="d-flex_row">
+                    <div id="name-contacts" class="name-contacts d-flex_row input-container">
+                        <input id="name" placeholder="Name" name="name" pattern="^(?=.*[A-Za-zäöüÄÖÜß]{3}).*$"
+                            title="Mindestens drei Buchstaben" class="name-input" type="text" required>
+                        <div class="name-contacts-img target">
+                            <svg width="24" height="25" viewBox="0 0 24 25" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <mask id="mask0_43661_2306" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0"
+                                    y="0" width="24" height="25">
+                                    <rect y="0.5" width="24" height="24" fill="#D9D9D9" />
+                                </mask>
+                                <g mask="url(#mask0_43661_2306)">
+                                    <path
+                                        d="M12 12.5C10.9 12.5 9.95833 12.1083 9.175 11.325C8.39167 10.5417 8 9.6 8 8.5C8 7.4 8.39167 6.45833 9.175 5.675C9.95833 4.89167 10.9 4.5 12 4.5C13.1 4.5 14.0417 4.89167 14.825 5.675C15.6083 6.45833 16 7.4 16 8.5C16 9.6 15.6083 10.5417 14.825 11.325C14.0417 12.1083 13.1 12.5 12 12.5ZM18 20.5H6C5.45 20.5 4.97917 20.3042 4.5875 19.9125C4.19583 19.5208 4 19.05 4 18.5V17.7C4 17.1333 4.14583 16.6125 4.4375 16.1375C4.72917 15.6625 5.11667 15.3 5.6 15.05C6.63333 14.5333 7.68333 14.1458 8.75 13.8875C9.81667 13.6292 10.9 13.5 12 13.5C13.1 13.5 14.1833 13.6292 15.25 13.8875C16.3167 14.1458 17.3667 14.5333 18.4 15.05C18.8833 15.3 19.2708 15.6625 19.5625 16.1375C19.8542 16.6125 20 17.1333 20 17.7V18.5C20 19.05 19.8042 19.5208 19.4125 19.9125C19.0208 20.3042 18.55 20.5 18 20.5ZM6 18.5H18V17.7C18 17.5167 17.9542 17.35 17.8625 17.2C17.7708 17.05 17.65 16.9333 17.5 16.85C16.6 16.4 15.6917 16.0625 14.775 15.8375C13.8583 15.6125 12.9333 15.5 12 15.5C11.0667 15.5 10.1417 15.6125 9.225 15.8375C8.30833 16.0625 7.4 16.4 6.5 16.85C6.35 16.9333 6.22917 17.05 6.1375 17.2C6.04583 17.35 6 17.5167 6 17.7V18.5ZM12 10.5C12.55 10.5 13.0208 10.3042 13.4125 9.9125C13.8042 9.52083 14 9.05 14 8.5C14 7.95 13.8042 7.47917 13.4125 7.0875C13.0208 6.69583 12.55 6.5 12 6.5C11.45 6.5 10.9792 6.69583 10.5875 7.0875C10.1958 7.47917 10 7.95 10 8.5C10 9.05 10.1958 9.52083 10.5875 9.9125C10.9792 10.3042 11.45 10.5 12 10.5Z"
+                                        fill="#A8A8A8" />
+                                </g>
+                            </svg>
+                        </div>
+                    </div>
+                    <div id="email-contacts" class="email-contacts d-flex_row input-container">
+                        <input id="email" name="email" placeholder="Email" pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$"
+                            class="email-input" type="email" title="Bitte geben Sie eine gültige E-Mail-Adresse ein"
+                            required>
+                        <div class="email-contacts-img target">
+                            <svg width="24" height="25" viewBox="0 0 24 25" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <mask id="mask0_43661_2816" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0"
+                                    y="0" width="24" height="25">
+                                    <rect y="0.48291" width="24" height="24" fill="#D9D9D9" />
+                                </mask>
+                                <g mask="url(#mask0_43661_2816)">
+                                    <path
+                                        d="M4 20.4829C3.45 20.4829 2.97917 20.2871 2.5875 19.8954C2.19583 19.5037 2 19.0329 2 18.4829V6.48291C2 5.93291 2.19583 5.46208 2.5875 5.07041C2.97917 4.67874 3.45 4.48291 4 4.48291H20C20.55 4.48291 21.0208 4.67874 21.4125 5.07041C21.8042 5.46208 22 5.93291 22 6.48291V18.4829C22 19.0329 21.8042 19.5037 21.4125 19.8954C21.0208 20.2871 20.55 20.4829 20 20.4829H4ZM20 8.48291L12.525 13.1579C12.4417 13.2079 12.3542 13.2454 12.2625 13.2704C12.1708 13.2954 12.0833 13.3079 12 13.3079C11.9167 13.3079 11.8292 13.2954 11.7375 13.2704C11.6458 13.2454 11.5583 13.2079 11.475 13.1579L4 8.48291V18.4829H20V8.48291ZM12 11.4829L20 6.48291H4L12 11.4829ZM4 8.73291V7.25791V7.28291V7.27041V8.73291Z"
+                                        fill="#A8A8A8" />
+                                </g>
+                            </svg>
+                        </div>
+                    </div>
+                    <div id="mobile-contacts" class="phone-contacts d-flex_row input-container">
+                        <input id="mobile" name="tel" title="Geben Sie eine gültige Telefonnummer ein"
+                            placeholder="Phone (optional)" class="phone-input" type="tel">
+                        <div class="phone-contacts-img target">
+                            <svg width="24" height="25" viewBox="0 0 24 25" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <mask id="mask0_43661_2823" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0"
+                                    y="0" width="24" height="25">
+                                    <rect y="0.98291" width="24" height="24" fill="#D9D9D9" />
+                                </mask>
+                                <g mask="url(#mask0_43661_2823)">
+                                    <path
+                                        d="M19.95 21.9829C17.8667 21.9829 15.8083 21.5287 13.775 20.6204C11.7417 19.7121 9.89167 18.4246 8.225 16.7579C6.55833 15.0912 5.27083 13.2412 4.3625 11.2079C3.45417 9.17458 3 7.11624 3 5.03291C3 4.73291 3.1 4.48291 3.3 4.28291C3.5 4.08291 3.75 3.98291 4.05 3.98291H8.1C8.33333 3.98291 8.54167 4.06208 8.725 4.22041C8.90833 4.37874 9.01667 4.56624 9.05 4.78291L9.7 8.28291C9.73333 8.54958 9.725 8.77458 9.675 8.95791C9.625 9.14124 9.53333 9.29958 9.4 9.43291L6.975 11.8829C7.30833 12.4996 7.70417 13.0954 8.1625 13.6704C8.62083 14.2454 9.125 14.7996 9.675 15.3329C10.1917 15.8496 10.7333 16.3287 11.3 16.7704C11.8667 17.2121 12.4667 17.6162 13.1 17.9829L15.45 15.6329C15.6 15.4829 15.7958 15.3704 16.0375 15.2954C16.2792 15.2204 16.5167 15.1996 16.75 15.2329L20.2 15.9329C20.4333 15.9996 20.625 16.1204 20.775 16.2954C20.925 16.4704 21 16.6662 21 16.8829V20.9329C21 21.2329 20.9 21.4829 20.7 21.6829C20.5 21.8829 20.25 21.9829 19.95 21.9829ZM6.025 9.98291L7.675 8.33291L7.25 5.98291H5.025C5.10833 6.66624 5.225 7.34124 5.375 8.00791C5.525 8.67458 5.74167 9.33291 6.025 9.98291ZM14.975 18.9329C15.625 19.2162 16.2875 19.4412 16.9625 19.6079C17.6375 19.7746 18.3167 19.8829 19 19.9329V17.7329L16.65 17.2579L14.975 18.9329Z"
+                                        fill="#A8A8A8" />
+                                </g>
+                            </svg>
+                        </div>
+                    </div>
+
+                 
+                    
+
+                    <div class="button_container d-flex_row">
+                        <div onclick="clearAddForm()"
+                            class="blue-button-container cancel-button-container click-animation d-flex_row">
+                            <div class="blue-button-text">Cancel</div>
+
+                        </div>
+                        <button type="submit" class="create-button-container click-animation d-flex_row ">
+                            <div class="create-button-text">
+                                <nobr>Create contact</nobr>
+                            </div>
+                            <div class="create-button-hook">
+                                <svg width="25" height="25" viewBox="0 0 25 25" fill="black"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <mask id="mask0_43661_1650" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0"
+                                        y="0" width="25" height="25">
+                                        <rect x="0.5" y="0.98291" width="24" height="24" fill="#D9D9D9" />
+                                    </mask>
+                                    <g mask="url(#mask0_43661_1650)">
+                                        <path
+                                            d="M10.05 16.1329L18.525 7.65791C18.725 7.45791 18.9625 7.35791 19.2375 7.35791C19.5125 7.35791 19.75 7.45791 19.95 7.65791C20.15 7.85791 20.25 8.09541 20.25 8.37041C20.25 8.64541 20.15 8.88291 19.95 9.08291L10.75 18.2829C10.55 18.4829 10.3167 18.5829 10.05 18.5829C9.78336 18.5829 9.55002 18.4829 9.35002 18.2829L5.05002 13.9829C4.85002 13.7829 4.75419 13.5454 4.76252 13.2704C4.77086 12.9954 4.87502 12.7579 5.07502 12.5579C5.27502 12.3579 5.51252 12.2579 5.78752 12.2579C6.06252 12.2579 6.30002 12.3579 6.50002 12.5579L10.05 16.1329Z"
+                                            fill="white" />
+                                    </g>
+                                </svg>
+                            </div>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    </div>
+    <!-- *-*-*-* -->
+
+    <!-- overlay_edit-contact -->
+    <div id="overlay_edit-contact" class="d-none">
+        <div onclick="closeEditContactOverlay()" id="close-edit-area"></div>
+        <div class="edit-contact_main-container">
+            <div class="edit-area_top-area d-flex_column">
+                <div class="close-container d-flex_column">
+                    <div onclick="closeEditContactOverlay()" class="x-button click-animation">
+                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <mask id="mask0_19024_6446" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="4" y="4"
+                                width="24" height="24">
+                                <rect x="4" y="4" width="24" height="24" fill="#D9D9D9" />
+                            </mask>
+                            <g mask="url(#mask0_19024_6446)">
+                                <path
+                                    d="M16 17.8642L9.46667 24.389C9.22223 24.6331 8.91112 24.7552 8.53334 24.7552C8.15556 24.7552 7.84445 24.6331 7.6 24.389C7.35556 24.1449 7.23334 23.8342 7.23334 23.4569C7.23334 23.0796 7.35556 22.7689 7.6 22.5248L14.1333 16L7.6 9.47527C7.35556 9.23115 7.23334 8.92045 7.23334 8.54316C7.23334 8.16588 7.35556 7.85518 7.6 7.61106C7.84445 7.36693 8.15556 7.24487 8.53334 7.24487C8.91112 7.24487 9.22223 7.36693 9.46667 7.61106L16 14.1358L22.5333 7.61106C22.7778 7.36693 23.0889 7.24487 23.4667 7.24487C23.8444 7.24487 24.1556 7.36693 24.4 7.61106C24.6444 7.85518 24.7667 8.16588 24.7667 8.54316C24.7667 8.92045 24.6444 9.23115 24.4 9.47527L17.8667 16L24.4 22.5248C24.6444 22.7689 24.7667 23.0796 24.7667 23.4569C24.7667 23.8342 24.6444 24.1449 24.4 24.389C24.1556 24.6331 23.8444 24.7552 23.4667 24.7552C23.0889 24.7552 22.7778 24.6331 22.5333 24.389L16 17.8642Z"
+                                    fill="white" />
+                            </g>
+                        </svg>
+                    </div>
+                </div>
+                <div class="content-container d-flex column">
+                    <div class="logo">
+                        <svg width="46" height="56" viewBox="0 0 46 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M32.9078 -0.000244141H22.7341V11.7044H32.9078V-0.000244141Z" fill="white" />
+                            <path
+                                d="M22.7342 21.2239H32.9079V37.7315C32.9544 41.7036 31.8239 45.6 29.6602 48.9252C27.5237 52.1559 23.3994 55.9998 15.7692 55.9998C7.45808 55.9998 2.61385 52.0695 0 49.9156L6.41724 41.9998C8.96848 44.0829 11.4258 45.7966 15.8083 45.7966C19.1265 45.7966 20.4491 44.4445 21.2238 43.2654C22.2771 41.6277 22.8219 39.7124 22.789 37.7629L22.7342 21.2239Z"
+                                fill="white" />
+                            <path d="M17.5457 13.8347H7.37207V24.0537H17.5457V13.8347Z" fill="white" />
+                            <path
+                                d="M38.2374 51.2047C38.2374 53.3821 37.134 54.5534 35.5923 54.5534C34.0506 54.5534 33.041 53.162 33.041 51.3147C33.041 49.4675 34.0819 48.0054 35.6783 48.0054C37.2748 48.0054 38.2374 49.4439 38.2374 51.2047ZM34.2227 51.2912C34.2227 52.6039 34.7471 53.5708 35.647 53.5708C36.547 53.5708 37.0557 52.5489 37.0557 51.2126C37.0557 50.0413 36.5861 48.9408 35.647 48.9408C34.7079 48.9408 34.2227 50.002 34.2227 51.2912Z"
+                                fill="white" />
+                            <path d="M40.2563 48.0999V54.4513H39.1294V48.0999H40.2563Z" fill="white" />
+                            <path
+                                d="M41.4773 54.4513V48.0999H42.7294L44.0755 50.7175C44.422 51.4019 44.7303 52.1053 44.9989 52.8242C44.9285 52.0381 44.8972 51.1341 44.8972 50.1279V48.0999H45.9302V54.4513H44.7642L43.4025 51.7787C43.0419 51.0766 42.7206 50.3549 42.4399 49.617C42.4399 50.4031 42.4947 51.2913 42.4947 52.384V54.4435L41.4773 54.4513Z"
+                                fill="white" />
+                        </svg>
+                    </div>
+                    <div class="headline-text mgTop-18">Edit Contact</div>
+                    <div>
+                        <div id="edit-contact-profile-img"
+                            class="contact-container-img-edit contact-container-img-overlay"
+                            style="width:90px; height:90px; font-size:1.6em;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="edit-area_bottom-area d-flex_column">
+                <form id="edit-contact-form" onsubmit="editContact(i); return false;">
+                    <div id="edit-name-contacts" class="name-edit-contacts d-flex_row input-container">
+                        <input id="edit-name" placeholder="Name" name="name" pattern="^(?=.*[A-Za-zäöüÄÖÜß]{3}).*$"
+                            title="Mindestens drei Buchstaben" class="name-input" type="text"
+                            value="${contacts[i]['name']}" required>
+                        <div class="name-contacts-img target">
+                            <svg width="24" height="25" viewBox="0 0 24 25" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <mask id="mask0_43661_2306" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0"
+                                    y="0" width="24" height="25">
+                                    <rect y="0.5" width="24" height="24" fill="#D9D9D9" />
+                                </mask>
+                                <g mask="url(#mask0_43661_2306)">
+                                    <path
+                                        d="M12 12.5C10.9 12.5 9.95833 12.1083 9.175 11.325C8.39167 10.5417 8 9.6 8 8.5C8 7.4 8.39167 6.45833 9.175 5.675C9.95833 4.89167 10.9 4.5 12 4.5C13.1 4.5 14.0417 4.89167 14.825 5.675C15.6083 6.45833 16 7.4 16 8.5C16 9.6 15.6083 10.5417 14.825 11.325C14.0417 12.1083 13.1 12.5 12 12.5ZM18 20.5H6C5.45 20.5 4.97917 20.3042 4.5875 19.9125C4.19583 19.5208 4 19.05 4 18.5V17.7C4 17.1333 4.14583 16.6125 4.4375 16.1375C4.72917 15.6625 5.11667 15.3 5.6 15.05C6.63333 14.5333 7.68333 14.1458 8.75 13.8875C9.81667 13.6292 10.9 13.5 12 13.5C13.1 13.5 14.1833 13.6292 15.25 13.8875C16.3167 14.1458 17.3667 14.5333 18.4 15.05C18.8833 15.3 19.2708 15.6625 19.5625 16.1375C19.8542 16.6125 20 17.1333 20 17.7V18.5C20 19.05 19.8042 19.5208 19.4125 19.9125C19.0208 20.3042 18.55 20.5 18 20.5ZM6 18.5H18V17.7C18 17.5167 17.9542 17.35 17.8625 17.2C17.7708 17.05 17.65 16.9333 17.5 16.85C16.6 16.4 15.6917 16.0625 14.775 15.8375C13.8583 15.6125 12.9333 15.5 12 15.5C11.0667 15.5 10.1417 15.6125 9.225 15.8375C8.30833 16.0625 7.4 16.4 6.5 16.85C6.35 16.9333 6.22917 17.05 6.1375 17.2C6.04583 17.35 6 17.5167 6 17.7V18.5ZM12 10.5C12.55 10.5 13.0208 10.3042 13.4125 9.9125C13.8042 9.52083 14 9.05 14 8.5C14 7.95 13.8042 7.47917 13.4125 7.0875C13.0208 6.69583 12.55 6.5 12 6.5C11.45 6.5 10.9792 6.69583 10.5875 7.0875C10.1958 7.47917 10 7.95 10 8.5C10 9.05 10.1958 9.52083 10.5875 9.9125C10.9792 10.3042 11.45 10.5 12 10.5Z"
+                                        fill="#A8A8A8" />
+                                </g>
+                            </svg>
+                        </div>
+                    </div>
+                    <div id="edit-email-contacts" class="email-edit-contacts d-flex_row input-container">
+                        <input id="edit-email" name="email" placeholder="Email" class="email-input" type="email"
+                            pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$" title="Bitte geben Sie eine gültige E-Mail-Adresse ein"
+                            value="${contacts[i]['email']}" required>
+                        <div class="email-contacts-img target">
+                            <svg width="24" height="25" viewBox="0 0 24 25" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <mask id="mask0_43661_2816" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0"
+                                    y="0" width="24" height="25">
+                                    <rect y="0.48291" width="24" height="24" fill="#D9D9D9" />
+                                </mask>
+                                <g mask="url(#mask0_43661_2816)">
+                                    <path
+                                        d="M4 20.4829C3.45 20.4829 2.97917 20.2871 2.5875 19.8954C2.19583 19.5037 2 19.0329 2 18.4829V6.48291C2 5.93291 2.19583 5.46208 2.5875 5.07041C2.97917 4.67874 3.45 4.48291 4 4.48291H20C20.55 4.48291 21.0208 4.67874 21.4125 5.07041C21.8042 5.46208 22 5.93291 22 6.48291V18.4829C22 19.0329 21.8042 19.5037 21.4125 19.8954C21.0208 20.2871 20.55 20.4829 20 20.4829H4ZM20 8.48291L12.525 13.1579C12.4417 13.2079 12.3542 13.2454 12.2625 13.2704C12.1708 13.2954 12.0833 13.3079 12 13.3079C11.9167 13.3079 11.8292 13.2954 11.7375 13.2704C11.6458 13.2454 11.5583 13.2079 11.475 13.1579L4 8.48291V18.4829H20V8.48291ZM12 11.4829L20 6.48291H4L12 11.4829ZM4 8.73291V7.25791V7.28291V7.27041V8.73291Z"
+                                        fill="#A8A8A8" />
+                                </g>
+                            </svg>
+                        </div>
+                    </div>
+                    <div id="edit-mobile-contacts" class="phone-edit-contacts d-flex_row input-container">
+                        <input id="edit-mobile" name="tel" title="Geben Sie eine gültige Telefonnummer ein"
+                            placeholder="Phone" class="phone-input" type="tel" value="${contacts[i]['mobile']}">
+
+                        <div class="phone-contacts-img target">
+                            <svg width="24" height="25" viewBox="0 0 24 25" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <mask id="mask0_43661_2823" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0"
+                                    y="0" width="24" height="25">
+                                    <rect y="0.98291" width="24" height="24" fill="#D9D9D9" />
+                                </mask>
+                                <g mask="url(#mask0_43661_2823)">
+                                    <path
+                                        d="M19.95 21.9829C17.8667 21.9829 15.8083 21.5287 13.775 20.6204C11.7417 19.7121 9.89167 18.4246 8.225 16.7579C6.55833 15.0912 5.27083 13.2412 4.3625 11.2079C3.45417 9.17458 3 7.11624 3 5.03291C3 4.73291 3.1 4.48291 3.3 4.28291C3.5 4.08291 3.75 3.98291 4.05 3.98291H8.1C8.33333 3.98291 8.54167 4.06208 8.725 4.22041C8.90833 4.37874 9.01667 4.56624 9.05 4.78291L9.7 8.28291C9.73333 8.54958 9.725 8.77458 9.675 8.95791C9.625 9.14124 9.53333 9.29958 9.4 9.43291L6.975 11.8829C7.30833 12.4996 7.70417 13.0954 8.1625 13.6704C8.62083 14.2454 9.125 14.7996 9.675 15.3329C10.1917 15.8496 10.7333 16.3287 11.3 16.7704C11.8667 17.2121 12.4667 17.6162 13.1 17.9829L15.45 15.6329C15.6 15.4829 15.7958 15.3704 16.0375 15.2954C16.2792 15.2204 16.5167 15.1996 16.75 15.2329L20.2 15.9329C20.4333 15.9996 20.625 16.1204 20.775 16.2954C20.925 16.4704 21 16.6662 21 16.8829V20.9329C21 21.2329 20.9 21.4829 20.7 21.6829C20.5 21.8829 20.25 21.9829 19.95 21.9829ZM6.025 9.98291L7.675 8.33291L7.25 5.98291H5.025C5.10833 6.66624 5.225 7.34124 5.375 8.00791C5.525 8.67458 5.74167 9.33291 6.025 9.98291ZM14.975 18.9329C15.625 19.2162 16.2875 19.4412 16.9625 19.6079C17.6375 19.7746 18.3167 19.8829 19 19.9329V17.7329L16.65 17.2579L14.975 18.9329Z"
+                                        fill="#A8A8A8" />
+                                </g>
+                            </svg>
+                        </div>
+                    </div>
+                    <div id="edit-button-container" class="button_container d-flex_row">
+                        <div onclick="clearEditForm()" id="delete_in_edit"
+                            class="blue-button-container d-flex_row mybtn form-button">
+                            <div class="blue-button-text">Delete</div>
+                        </div>
+                        <button type="submit" id="edit_in_edit" class="mybtn save-button-container d-flex_row">
+                            <div class="save-button-text">Save</div>
+                            <div class="save-button-hook">
+                                <svg width="25" height="25" viewBox="0 0 25 25" fill="black"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <mask id="mask0_43661_1650" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0"
+                                        y="0" width="25" height="25">
+                                        <rect x="0.5" y="0.98291" width="24" height="24" fill="#D9D9D9" />
+                                    </mask>
+                                    <g mask="url(#mask0_43661_1650)">
+                                        <path
+                                            d="M10.05 16.1329L18.525 7.65791C18.725 7.45791 18.9625 7.35791 19.2375 7.35791C19.5125 7.35791 19.75 7.45791 19.95 7.65791C20.15 7.85791 20.25 8.09541 20.25 8.37041C20.25 8.64541 20.15 8.88291 19.95 9.08291L10.75 18.2829C10.55 18.4829 10.3167 18.5829 10.05 18.5829C9.78336 18.5829 9.55002 18.4829 9.35002 18.2829L5.05002 13.9829C4.85002 13.7829 4.75419 13.5454 4.76252 13.2704C4.77086 12.9954 4.87502 12.7579 5.07502 12.5579C5.27502 12.3579 5.51252 12.2579 5.78752 12.2579C6.06252 12.2579 6.30002 12.3579 6.50002 12.5579L10.05 16.1329Z"
+                                            fill="white" />
+                                    </g>
+                                </svg>
+                            </div>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- *-*-*-* -->
+
+
+    <!-- Edit Confirmation window -->
+    <div id="confirmation_overlay" class="d-none">
+
+    </div>
+    <!-- *-*-*-* -->
+
+
+    <div id="landscape-format-message" class="landscape_format_message">
+        <div id="landscape-format-message-container" class="landscape_format_message_container">Please switch back to
+            portrait format.</div>
+    </div>
+</body>
+
+</html>

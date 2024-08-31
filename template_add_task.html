@@ -1,0 +1,95 @@
+<form class="add_task_form" id="myForm">
+      <div class="add_class_top_section">
+        <input type="text" required class="input_add_task" placeholder="Enter a title" id="taskTitle"/>
+        <div>
+          <span class="add_description_span"
+            ><b>Description</b> (optional)</span
+          >
+          <textarea
+            class="add_description_textfield"
+            placeholder="Enter a Description" id="taskDescription"
+          ></textarea>
+        </div>
+
+        <div>
+          <span class="add_date_span"><b>Due Date</b></span>
+          <input type="date" required class="input_add_date" id="taskDueDate"/>
+        </div>
+      </div>
+
+      <div class="add_priority">
+        <div>
+          <span class="add_priority_span"><b>Priority</b></span>
+        </div>
+        <div class="priority_buttons">
+          <button type="button" class="button_urgent priority_inactive" id="urgentPriority" onclick="selectPriority('urgent')">
+            Urgent<img src="./img/prio_red.png" class="prio_icons" id="prioRed" />
+          </button>
+          <button type="button" class="button_medium priority_active" id="mediumPriority" onclick="selectPriority('medium')">
+            Medium<img src="./img/prio_orange_white.png" class="prio_icons"  id="prioOrange"/>
+          </button>
+          <button type="button" class="button_low priority_inactive" id="lowPriority" onclick="selectPriority('low')">
+            Low<img src="./img/prio_green.png" class="prio_icons" id="prioGreen"/>
+          </button>
+        </div>
+      </div>
+
+      <div class="add_assigned_to">
+        <div>
+          <span class="add_assigned_to_span" id="taskAssignedTo"
+            ><b>Assigned to</b> (optional)</span
+          >
+
+          <div class="dropdown_task">
+            <div class="dropdown_header" onclick="toggleContacsDropdown(event)">
+              <span class="dropdown_span" id="selectAssignedTo">Select contacts to assign</span>
+              <span class="dropdown_arrow">&#9660;</span>
+            </div>
+            <div class="assigned_to_dropdown_content" id="assignedDropdown">
+               </div>
+
+               <div class="selected_Contact" id="selectedContact">
+
+               </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="add_category" id="addCategory">
+        <div>
+          <span class="add_category_span">Content Category</span>
+
+          <div class="dropdown_task">
+            <div class="dropdown_header" onclick="toggleCategoryDropdown()">
+              <span class="dropdown_span" id="addCategoryInputField">Select task category</span>
+              <span class="dropdown_arrow">&#9660;</span>
+            </div>
+            <div class="category_to_dropdown_content" id="categoryDropdown">        
+                <span onclick="selectCategory('Technical Task')">Technical Task</span>
+                <span onclick="selectCategory('User Story')">User Story</span>            
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="add_subtasks" id="add_subtasks">
+        
+        <span class="add_subtask_span">Subtasks</span>
+        <div class="add_subtask_input_div">
+        <input type="text" class="input_subtasks" placeholder="Add new subtask" id="inputSubtasks" oninput="onInputSubtask()" />
+        <div class="subtask_icons" id="subtaskIconsActive">
+          <img src="./img/plus_icon.png" alt="add" class="add_subtask_icon">
+        </div>
+        
+        <div class="subtask_icons inactive" id="subtaskIconsInactive">
+        <button type="button" class="add_subtask_delete_icon" onclick="clearInput('inputSubtasks'),onInputSubtask()"><b>&#10006;</b></button>
+        <div class="subtask_divider"></div>
+        <img class="subtask_check_icon" src="./img/check.png" onclick="addSubtask()">
+      </div>
+      
+
+  </div>
+  <div class="add_subtask_content" id="subtaskContent"></div>
+    </form>

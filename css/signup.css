@@ -1,0 +1,262 @@
+body {
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Open Sans', sans-serif;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #4589FF;
+    overflow: hidden;
+}
+
+.logo {
+    width: 100px;
+    height: 122px;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: 10%;
+    left: 10%;
+}
+
+.signup_container {
+    border-radius: 30px;
+    box-shadow: 0px 0px 10px 3px #00000014;
+    background-color: #FFFFFF;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 48px 115px;
+    gap: 32px;
+}
+
+.head_container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.signup_container form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+}
+
+.blue_underline {
+    width: 250px;
+    height: 3px;
+    background-color: #4589FF;
+}
+
+.input_container {
+    display: flex;
+    align-items: center;
+    padding: 12px 21px;
+    width: 380px;
+    border-bottom: 1px solid #D1D1D1
+}
+
+.input_container input {
+    border: none;
+    outline: none;
+    width: 100%;
+    font-size: 20px;
+}
+
+.hidden_container {
+    color: #ff0000;
+    font-size: 12px;
+}
+
+.button_container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 34px;
+}
+
+.privacy_container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.privacy_container a {
+    text-decoration: none;
+    color: #4589FF;
+}
+
+.privacy_container a:hover {
+    text-decoration: underline;
+    color: #005DFF;
+}
+
+.signup_footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    padding: 40px;
+    gap: 16px;
+}
+
+.link_white {
+    padding: 8px;
+    text-decoration: none;
+    color: #FFFFFF;
+    transition: transform 0.1s;
+}
+
+.link_white:hover {
+    transform: scale(1.08);
+    color: #005DFF;
+}
+
+.link_white:active {
+    transform: scale(0.95);
+    filter: drop-shadow(0 0 10px rgba(255,255,255, 0.9));
+}
+
+.popup_container {
+    z-index: 1000;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    opacity: 0;
+    visibility: hidden;
+}
+
+.popup {
+    background: #4589FF;
+    border: 1px solid #4589FF;
+    border-radius: 20px;
+    color: #FFFFFF;
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 24px;
+    text-align: center;
+    padding: 25px;
+    transform: translateY(100%);
+}
+
+.popup_container.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.popup.show {
+    animation: slideInOut 2s ease-in-out forwards;
+}
+
+@keyframes slideInOut {
+    0% {
+        transform: translateY(800px);
+    }
+
+    50% {
+        transform: translateY(0);
+    }
+
+    100% {
+        transform: translateY(-800px);
+    }
+}
+
+h1 {
+    font-family: Open Sans;
+    font-size: 48px;
+    font-weight: 700;
+    flex-grow: 1;
+    text-align: center;
+    margin: 0;
+}
+
+.red_underline {
+    border-color: #ff0000;
+}
+
+.d_none {
+    display: none;
+}
+
+@media(max-width: 750px) {
+    .logo {
+        top: 8%;
+        left: 20%;
+        width: 70px;
+        height: 92px;
+    }
+
+    .signup_container {
+        padding: 40px 80px;
+        margin: 0 16px;
+    }
+
+    .blue_underline {
+        width: 200px;
+    }
+}
+
+@media(max-width: 650px) {
+    .signup_container {
+        padding: 30px 40px;
+        gap: 26px;
+    }
+
+    .signup_container form {
+        gap: 18px;
+    }
+
+    .input_container {
+        width: auto;
+        padding: 8px 17px;
+    }
+
+    .blue_underline {
+        width: 150px;
+    }
+
+    .button_container {
+        gap: 25px;
+    }
+}
+
+@media(max-width: 400px) {
+    .signup_container form {
+        gap: 14px;
+    }
+
+    .logo {
+        top: 6%;
+        width: 40px;
+        height: 62px;
+    }
+
+    .blue_underline {
+        width: 88px;
+    }
+
+    .signup_container {
+        padding: 20px 40px;
+    }
+
+    .button_container {
+        gap: 24px;
+    }
+
+    .signup_footer {
+        padding: 20px;
+    }
+}

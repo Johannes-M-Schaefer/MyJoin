@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="shortcut icon" href="./img/logo.png" type="image/x-icon" />
+  <link rel="stylesheet" href="./css/common.css" />
+  <link rel="stylesheet" href="./css/board.css" />
+  <link rel="stylesheet" href="./css/fonts.css" />
+  <link rel="stylesheet" href="./css/template_header.css" />
+  <link rel="stylesheet" href="./css/template_sidebar.css" />
+  <link rel="stylesheet" href="./css/add_task.css">
+  <link rel="stylesheet" href="./css/landscape_format.css">
+  <script src="./js/script.js"></script>
+  <script src="./js/include_html.js"></script>
+  <script src="./js/task.js"></script>
+  <script src="./js/board.js"></script>
+  <script src="./js/board_drag_drop.js"></script>
+  <script src="./js/board_template.js"></script>
+  <script src="./js/add_task_templates.js"></script>
+  <script src="./js/task_support_functions.js"></script>
+  <title>Join</title>
+</head>
+
+<body onload="init()">
+
+  <div class="container">
+    <div w3-include-html="template_header.html"></div>
+
+    <div class="main">
+      <div w3-include-html="template_sidebar.html" style="z-index: 1;"></div>
+
+      <div class="board_container">
+        <div class="board_top_section">
+          <div class="board_input_section">
+            <input type="text" placeholder="Find Task" id="findTask" class="find_task_input" onkeyup="filterTask()" />
+            <div class="input_divider"></div>
+            <img src="./img/input_search_icon.png" alt="search" class="input_search_icon" />
+          </div>
+
+
+          <button class="btn blue hover-grow click-animation" onclick="setSendTaskStatus('To do'), openOverlayRight()">
+            Add task<img src="./img/plus_icon_white.png" class="add_task_button_icon" />
+          </button>
+
+        </div>
+
+        <div class="task_content">
+          <div class="task_board">
+            <div class="task_status">
+              <span class="task_status_span">To do</span>
+              <button class="task_button hover-grow click-animation"
+                onclick="setSendTaskStatus('To do'), openOverlayRight()">+</button>
+            </div>
+
+            <div class="task_bar_content scrollable" id="drag_to_do"
+              ondrop="moveTo('drag_to_do'); removeHighlight('drag_to_do')" ondragleave="removeHighlight('drag_to_do')"
+              ondragover="allowDrop(event); highlight('drag_to_do')"></div>
+          </div>
+
+          <div class="task_board">
+            <div class="task_status">
+              <span class="task_status_span">In progress</span>
+              <button class="task_button hover-grow click-animation"
+                onclick="setSendTaskStatus('In progress'), openOverlayRight()">+</button>
+            </div>
+
+            <div class="task_bar_content scrollable" id="drag_in_progress"
+              ondrop="moveTo('drag_in_progress'); removeHighlight('drag_in_progress')"
+              ondragleave="removeHighlight('drag_in_progress')"
+              ondragover="allowDrop(event); highlight('drag_in_progress')"></div>
+          </div>
+
+          <div class="task_board">
+            <div class="task_status">
+              <span class="task_status_span">Await feedback</span>
+              <button class="task_button hover-grow click-animation"
+                onclick="setSendTaskStatus('Await feedback'), openOverlayRight()">+</button>
+            </div>
+
+            <div class="task_bar_content scrollable" id="drag_await_feedback"
+              ondrop="moveTo('drag_await_feedback'); removeHighlight('drag_await_feedback')"
+              ondragleave="removeHighlight('drag_await_feedback')"
+              ondragover="allowDrop(event); highlight('drag_await_feedback')"></div>
+          </div>
+
+          <div class="task_board">
+            <div class="task_status">
+              <span class="task_status_span">Done</span>
+            </div>
+
+            <div class="task_bar_content scrollable" id="drag_done"
+              ondrop="moveTo('drag_done'); removeHighlight('drag_done')" ondragleave="removeHighlight('drag_done')"
+              ondragover="allowDrop(event); highlight('drag_done')"></div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="add_task_overlay" id="add_task_overlay">
+    <div class="overlay_right">
+      <div class="add_task_header">
+        <h1 class="add_task_header_title">Add Task</h1>
+        <div class="x-button click-animation" onclick="closeOverlayRight()">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <mask id="mask0_19024_6446" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="4" y="4" width="24"
+              height="24">
+              <rect x="4" y="4" width="24" height="24" fill="#D9D9D9" />
+            </mask>
+            <g mask="url(#mask0_19024_6446)">
+              <path
+                d="M16 17.8642L9.46667 24.389C9.22223 24.6331 8.91112 24.7552 8.53334 24.7552C8.15556 24.7552 7.84445 24.6331 7.6 24.389C7.35556 24.1449 7.23334 23.8342 7.23334 23.4569C7.23334 23.0796 7.35556 22.7689 7.6 22.5248L14.1333 16L7.6 9.47527C7.35556 9.23115 7.23334 8.92045 7.23334 8.54316C7.23334 8.16588 7.35556 7.85518 7.6 7.61106C7.84445 7.36693 8.15556 7.24487 8.53334 7.24487C8.91112 7.24487 9.22223 7.36693 9.46667 7.61106L16 14.1358L22.5333 7.61106C22.7778 7.36693 23.0889 7.24487 23.4667 7.24487C23.8444 7.24487 24.1556 7.36693 24.4 7.61106C24.6444 7.85518 24.7667 8.16588 24.7667 8.54316C24.7667 8.92045 24.6444 9.23115 24.4 9.47527L17.8667 16L24.4 22.5248C24.6444 22.7689 24.7667 23.0796 24.7667 23.4569C24.7667 23.8342 24.6444 24.1449 24.4 24.389C24.1556 24.6331 23.8444 24.7552 23.4667 24.7552C23.0889 24.7552 22.7778 24.6331 22.5333 24.389L16 17.8642Z"
+                fill="#4589FF" />
+            </g>
+          </svg>
+        </div>
+      </div>
+      <div class="add_task_overlay_content" id="add_task_overlay_content">Test</div>
+      <div class="add_task_footer">
+        <button class="btn blue click-animation" onclick="validateFormOverlay()">
+          Create Task &#10004;
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="overlay_top" id="card_top_overlay">
+    <div class="overlay_border">
+      <div class="overlay_top_content" id="overlay_top_content"></div>
+    </div>
+  </div>
+
+  <div class="hidden_container">
+    <div class="hidden_popup">
+      Task added to board
+      <svg width="27" height="22" viewBox="0 0 27 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path
+          d="M20.5 1.99979L20.5 19.9998C20.4995 20.5301 20.2886 21.0385 19.9136 21.4134C19.5387 21.7884 19.0303 21.9993 18.5 21.9998L14.5 21.9998C13.9697 21.9993 13.4613 21.7884 13.0864 21.4134C12.7114 21.0385 12.5005 20.5301 12.5 19.9998L12.5 1.99979C12.5005 1.46952 12.7114 0.961118 13.0864 0.58616C13.4613 0.211202 13.9697 0.000317938 14.5 -0.000212328L18.5 -0.000212503C19.0303 0.000317717 19.5387 0.211202 19.9136 0.58616C20.2886 0.961118 20.4995 1.46952 20.5 1.99979ZM14.5 19.9998L18.5 19.9998L18.5 1.99979L14.5 1.99979L14.5 19.9998ZM14.5 1.99979L14.5 19.9998C14.4995 20.5301 14.2886 21.0384 13.9136 21.4134C13.5387 21.7883 13.0303 21.9992 12.5 21.9998L8.5 21.9998C7.96973 21.9992 7.46133 21.7883 7.08637 21.4134C6.71141 21.0384 6.50053 20.53 6.5 19.9998L6.5 1.99977C6.50053 1.4695 6.71141 0.961097 7.08637 0.586139C7.46133 0.211181 7.96973 0.000299127 8.5 -0.000231139L12.5 -0.000231314C13.0303 0.000298906 13.5387 0.211181 13.9136 0.586139C14.2886 0.961097 14.4995 1.46952 14.5 1.99979ZM8.5 19.9998L12.5 19.9998L12.5 1.99979L8.5 1.99977L8.5 19.9998ZM8.5 1.99977L8.5 19.9998C8.49947 20.53 8.28859 21.0384 7.91363 21.4134C7.53867 21.7883 7.03027 21.9992 6.5 21.9998L2.5 21.9998C1.96973 21.9992 1.46133 21.7883 1.08637 21.4134C0.711413 21.0384 0.500529 20.53 0.5 19.9998L0.499999 1.99977C0.500529 1.4695 0.711412 0.961098 1.08637 0.58614C1.46133 0.211182 1.96973 0.000299389 2.5 -0.000230877L6.5 -0.000231051C7.03027 0.000299168 7.53867 0.211181 7.91363 0.586139C8.28859 0.961097 8.49947 1.4695 8.5 1.99977ZM2.5 19.9998L6.5 19.9998L6.5 1.99977L2.5 1.99977L2.5 19.9998Z"
+          fill="white" />
+        <path
+          d="M26.5 2.00001L26.5 20C26.4995 20.5303 26.2886 21.0387 25.9136 21.4136C25.5387 21.7886 25.0303 21.9995 24.5 22L20.5 22C19.9697 21.9995 19.4613 21.7886 19.0864 21.4136C18.7114 21.0387 18.5005 20.5301 18.5 19.9998L18.5 1.99979C18.5005 1.46952 18.7114 0.961339 19.0864 0.586381C19.4613 0.211423 19.9697 0.000540836 20.5 1.05699e-05L24.5 1.0395e-05C25.0303 0.000540615 25.5387 0.211423 25.9136 0.586381C26.2886 0.961339 26.4995 1.46974 26.5 2.00001ZM20.5 19.9998L24.5 20L24.5 2.00001L20.5 1.99979L20.5 19.9998Z"
+          fill="white" />
+      </svg>
+    </div>
+  </div>
+
+  <div id="landscape-format-message" class="landscape_format_message">
+    <div id="landscape-format-message-container" class="landscape_format_message_container">Please switch back to
+      portrait format.</div>
+  </div>
+
+      <!-- Edit Confirmation window -->
+      <div id="confirmation_overlay" class="d-none">
+
+      </div>
+      <!-- *-*-*-* -->
+      
+</body>
+
+</html>

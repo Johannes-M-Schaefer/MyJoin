@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Summary</title>
+
+    <link rel="shortcut icon" href="./img/logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="./css/common.css" />
+    <link rel="stylesheet" href="./css/summary.css">
+    <link rel="stylesheet" href="./css/fonts.css">
+    <link rel="stylesheet" href="./css/template_header.css">
+    <link rel="stylesheet" href="./css/template_sidebar.css">
+    <link rel="stylesheet" href="./css/landscape_format.css">
+</head>
+
+<body>
+    <div class="container">
+        <div w3-include-html="template_header.html"></div>
+
+        <div class="main">
+            <div w3-include-html="template_sidebar.html"></div>
+
+            <div class="summary_container">
+                <h1 id="greetings"></h1>
+
+                <div class="button_section">
+
+                    <a href="./board.html" class="dis_flex blue_button trans_or_tlb w-auto">
+                        <div class="dis_flex flex_col">
+                            <div class="dis_flex number_container">
+                                <img class="border" src="./img/urgent.svg" alt="">
+                                <span class="font_numbers" id="urgent"></span>
+                            </div>
+                            <span class="font_400">Tasks Urgent</span>
+                        </div>
+                        <div class="parting_line"></div>
+                        <div class="dis_flex flex_col">
+                            <span class="font_700" id="dueDate"></span>
+                            <span class="font_400">Upcomming Deadline</span>
+                        </div>
+                    </a>
+
+                    <a href="./board.html" class="dis_flex flex_col btn trans_or_tr w-auto">
+                        <div class="dis_flex number_container">
+                            <img class="border" src="./img/board.svg" alt="">
+                            <span class="font_numbers col_bla" id="all_Tasks"></span>
+                        </div>
+                        <span class="font_400">Task in <br> Bord</span>
+                    </a>
+
+                    <a href="./board.html" class="dis_flex flex_col blue_border_btn trans_or_tl">
+                        <div class="dis_flex number_container">
+                            <img class="b_border" src="./img/note.svg" alt="">
+                            <span class="font_numbers col_bla" id="tasks_todo"></span>
+                        </div>
+                        <span class="font_400">Tasks To-do</span>
+                    </a>
+
+                    <a href="./board.html" class="dis_flex flex_col btn trans_or_r w-auto">
+                        <div class="dis_flex number_container">
+                            <img class="border" src="./img/in_progress.svg" alt="">
+                            <span class="font_numbers col_bla" id="tasks_progress"></span>
+                        </div>
+                        <span class="font_400">Task in <br> Progress</span>
+                    </a>
+
+                    <a href="./board.html" class="dis_flex flex_col btn trans_or_r w-auto">
+                        <div class="dis_flex number_container">
+                            <img class="border" src="./img/feedback.svg" alt="">
+                            <span class="font_numbers col_bla" id="feedback"></span>
+                        </div>
+                        <span class="font_400">Awaiting <br> Feedback</span>
+                    </a>
+
+                    <a href="./board.html" class="dis_flex flex_col btn trans_or_tr w-auto">
+                        <div class="dis_flex number_container">
+                            <img class="border" src="./img/done.svg" alt="">
+                            <span class="font_numbers col_bla" id="tasks_done"></span>
+                        </div>
+                        <span class="font_400">Tasks <br> Done</span>
+                    </a>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="landscape-format-message" class="landscape_format_message">
+        <div id="landscape-format-message-container" class="landscape_format_message_container">Please switch back to portrait format.</div>
+    </div>
+
+    <script src="./js/include_html.js"></script>
+    <script src="./js/script.js"></script>
+    <script defer src="./js/summary.js"></script>
+</body>
+
+</html>

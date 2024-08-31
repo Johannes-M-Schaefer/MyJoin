@@ -1,0 +1,82 @@
+body {
+  overflow: hidden;
+}
+
+.help_section {
+  padding: 20px 50px;
+  font-family: 'Open Sans', sans-serif;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  box-sizing: border-box;
+  overflow-y: scroll !important;
+  overflow-x: hidden !important;
+}
+
+.arrow_return:hover {
+  background-color: #d2e3ff;
+  border-radius: 50%;
+}
+
+.arrow_return_div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+h1 {
+  font-weight: 700;
+  font-size: 61px;
+}
+
+h2 {
+  color: #005dff;
+  font-weight: 700;
+  font-size: 33px;
+}
+
+span {
+  color: #4589ff;
+}
+
+.how_to_use {
+  display: flex;
+  gap: 16px;
+}
+
+.how_to_use_steps {
+  display: flex;
+  width: 29px;
+  height: 40px;
+}
+
+.how_to_use_number {
+  display: flex;
+  align-items: center;
+  color: #005dff;
+  font-weight: 700;
+  font-size: 33px;
+}
+
+
+@media (max-width: 700px) {
+  .help_section {
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 600px) {
+  .help_section {
+    padding: 10px 50px 100px 50px;
+  }
+}
+
+@media (max-width: 585px) {
+  h1 {
+    font-size: 50px;
+  }
+
+  h2 {
+    font-size: 25px;
+  }
+}
