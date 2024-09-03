@@ -675,6 +675,9 @@ body {
     cursor: pointer;
     background-color: #005eff;
     color: white;
+    .blue-button-text {
+        color: white;
+    }
 }
 
 .popup_container {
