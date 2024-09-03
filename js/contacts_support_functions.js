@@ -142,19 +142,4 @@ function closeEditContactOverlay() {
  * Removes blue background and adds slide animation before hiding the overlay.
  * @param {boolean} [resetSelectedContact=true] - Whether to reset the selected contact.
  */
-function closeSelectedContactOverlay(resetSelectedContact = true) {
-    let overlay = docId('selected-container');
-    if (selectedContact) {
-        selectedContact.classList.remove('blue-background');
-    }
 
-    overlay.classList.remove('show');
-    overlay.classList.add('hide');
-
-    setTimeout(() => {
-        overlay.classList.add('d-none');
-        if (resetSelectedContact) {
-            selectedContact = null;
-        }
-    }, 500);
-}

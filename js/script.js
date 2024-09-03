@@ -158,9 +158,34 @@ async function postData(path = '', data = {}) {
  * @returns {Promise<Object>} A promise that resolves to the JSON response from the server.
  */
 async function getData(path = "") {
-  let response = await fetch(STORAGE_URL + path + ".json");
-  return await response.json();
+  try {
+    // URL-Zusammenstellung und Abruf der Daten
+    const url = `${STORAGE_URL}${path}.json`;
+    const response = await fetch(url);
+
+    // Überprüfung, ob die Antwort des Servers erfolgreich ist (Status 200–299)
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status} ${response.statusText}`);
+    }
+
+    // Versuch, die Antwort in JSON umzuwandeln
+    const data = await response.json();
+
+    // Überprüfen, ob die Daten gültig sind und nicht null
+    if (data === null || data === undefined) {
+      console.error('Error: Response JSON is null or undefined', data);
+      return null;
+    }
+
+    return data;
+
+  } catch (error) {
+    // Fehlerprotokollierung für Debugging
+    console.error('Error fetching data from', path, ':', error);
+    return null;
+  }
 }
+
 
 /**
  * Deletes data from the Firebase Realtime Database at a specified path.
@@ -233,9 +258,24 @@ async function loadUsers() {
  * @async
  */
 async function loadCurrentUsers() {
-  let loadedCurrentUser = await getData('/currentUser');
-  currentUser = Object.values(loadedCurrentUser)[0];
+  try {
+    // Daten vom Server abrufen
+    let loadedCurrentUser = await getData('/currentUser');
+
+    // Überprüfen, ob die Antwort gültig ist
+    if (loadedCurrentUser && typeof loadedCurrentUser === 'object') {
+      // Objektwerte extrahieren
+      currentUser = Object.values(loadedCurrentUser)[0];
+    } else {
+      console.error('Error: Loaded current user data is not valid.', loadedCurrentUser);
+      currentUser = null; // oder setzen Sie hier eine sinnvolle Standardaktion
+    }
+  } catch (error) {
+    console.error('Error fetching current user data:', error);
+    currentUser = null; // oder setzen Sie hier eine sinnvolle Standardaktion
+  }
 }
+
 
 /**
  * Initializes contacts by loading, sorting, and enriching them with initials and colors.

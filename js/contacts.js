@@ -99,6 +99,22 @@ function renderContacts() {
  * Opens a selected contact by rendering its details in the UI.
  * @param {number} i - Index of the contact to be opened.
  */
+/* function openContact(i) {
+    let selectedContainer = docId('selected-container');
+    let contactContainer = docId(`contact-container(${i})`);
+    if (selectedContact === contactContainer) {
+        closeSelectedContactOverlay();
+        return;
+    }
+    if (selectedContact) {
+        closeSelectedContactOverlay(false);
+        setTimeout(() => {
+            switchToNewContact(i, contactContainer, selectedContainer);
+        }, 500);
+    } else {
+        switchToNewContact(i, contactContainer, selectedContainer);
+    }
+} */
 function openContact(i) {
     let selectedContainer = docId('selected-container');
     let contactContainer = docId(`contact-container(${i})`);
@@ -116,13 +132,14 @@ function openContact(i) {
     }
 }
 
+
 /**
  * Switches to a new contact by updating the UI.
  * @param {number} i - Index of the contact.
  * @param {HTMLElement} contactContainer - The HTML element of the contact container.
  * @param {HTMLElement} selectedContainer - The HTML element of the selected contact container.
  */
-function switchToNewContact(i, contactContainer, selectedContainer) {
+/* function switchToNewContact(i, contactContainer, selectedContainer) {
     if (selectedContact) {
         selectedContact.classList.remove('blue-background', 'selected');
     }
@@ -132,6 +149,75 @@ function switchToNewContact(i, contactContainer, selectedContainer) {
     selectedContainer.classList.remove('hide');
     selectedContainer.classList.add('show');
     selectedContact = contactContainer;
+} */
+function switchToNewContact(i, contactContainer, selectedContainer) {
+    if (selectedContact) {
+        updateContactColors(selectedContact, false); // Rücksetzen der Farben beim vorher ausgewählten Kontakt
+    }
+    updateContactColors(contactContainer, true); // Farben des neuen ausgewählten Kontakts setzen
+    selectedContainer.innerHTML = generateSelectedContactHTML(i);
+    selectedContainer.classList.remove('d-none');
+    selectedContainer.classList.remove('hide');
+    selectedContainer.classList.add('show');
+    selectedContact = contactContainer;
+}
+
+
+
+/* function closeSelectedContactOverlay(resetSelectedContact = true) {
+    let overlay = docId('selected-container');
+    if (selectedContact) {
+        selectedContact.classList.remove('blue-background');
+    }
+
+    overlay.classList.remove('show');
+    overlay.classList.add('hide');
+
+    setTimeout(() => {
+        overlay.classList.add('d-none');
+        if (resetSelectedContact) {
+            selectedContact = null;
+        }
+    }, 500);
+} */
+function closeSelectedContactOverlay(resetSelectedContact = true) {
+    let overlay = docId('selected-container');
+    if (selectedContact) {
+        updateContactColors(selectedContact, false); // Rücksetzen der Farben beim geschlossenen Kontakt
+    }
+
+    overlay.classList.remove('show');
+    overlay.classList.add('hide');
+
+    setTimeout(() => {
+        overlay.classList.add('d-none');
+        if (resetSelectedContact) {
+            selectedContact = null;
+        }
+    }, 500);
+}
+
+
+/**
+ * Updates the background and text colors of the contact container.
+ * @param {HTMLElement} contactContainer - The HTML element of the contact container.
+ * @param {boolean} isSelected - Indicates if the contact is selected.
+ */
+function updateContactColors(contactContainer, isSelected) {
+    // Update background and text color based on the selection state
+    if (isSelected) {
+        contactContainer.classList.add('blue-background');
+        let textElements = contactContainer.querySelectorAll('.contact-container-text-name, .contact-container-mail');
+        textElements.forEach(element => {
+            element.style.color = '#ffffff'; // Weiß
+        });
+    } else {
+        contactContainer.classList.remove('blue-background');
+        let textElements = contactContainer.querySelectorAll('.contact-container-text-name, .contact-container-mail');
+        textElements.forEach(element => {
+            element.style.color = ''; // Zurück zur ursprünglichen Farbe
+        });
+    }
 }
 
 

@@ -35,15 +35,34 @@ body {
     animation: click-animation 0.2s ease-in-out;
 }
 
-.blue-background {
+/* .blue-background {
     background-color: #4986fe !important;
     color: white !important;
 }
 
 .contact-container.selected .contact-container-text-name,
 .contact-container.selected .contact-container-mail {
+    color: #ffffff;
+} */
+
+.blue-background {
+    background-color: #4986fe !important;
+    color: white !important;
+}
+
+.contact-container .contact-container-text-name,
+.contact-container .contact-container-mail {
+    /* Ursprüngliche Schriftfarbe */
+    color: #000000; /* Oder eine andere Farbe, die ursprünglich verwendet wurde */
+}
+
+.contact-container.blue-background .contact-container-text-name,
+.contact-container.blue-background .contact-container-mail {
     color: #ffffff; /* Weiß */
 }
+
+
+
 
 .blue-button-container,
 .cancel-button-container,
