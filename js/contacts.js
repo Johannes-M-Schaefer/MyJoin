@@ -44,6 +44,11 @@ function groupContacts() {
  * displaying user information, and setting event listeners for logout and dropdowns.
  * Also handles orientation changes and periodic orientation checks.
  */
+/**
+ * Initializes the application by including HTML snippets, checking user authentication,
+ * loading contacts, grouping contacts, rendering contacts, loading current user data,
+ * displaying user information, and setting event listeners.
+ */
 async function init() {
     includeHTML();
     checkFirstPage();
@@ -52,20 +57,42 @@ async function init() {
     renderContacts();
     await loadCurrentUsers();
     showDropUser();
-    docId("log_out").addEventListener('click', logOut);
-    document.querySelector('.drop-logo').addEventListener('click', toggleDropdown);
-    window.addEventListener('click', event => {
-        if (!event.target.matches('.drop-logo')) {
-            document.querySelectorAll(".dropdown-content.show").forEach(dropdown => {
-                dropdown.classList.remove('show');
-            });
-        }
-    });
-    window.addEventListener('resize', checkOrientation);
-    window.addEventListener('orientationchange', checkOrientation);
+    setupEventListeners();
     checkOrientation();
     setInterval(checkOrientation, 500);
 }
+
+/**
+ * Sets up all event listeners for the application.
+ */
+function setupEventListeners() {
+    docId("log_out").addEventListener('click', logOut);
+    document.querySelector('.drop-logo').addEventListener('click', toggleDropdown);
+    window.addEventListener('click', handleWindowClick);
+    window.addEventListener('resize', checkOrientation);
+    window.addEventListener('orientationchange', checkOrientation);
+}
+
+/**
+ * Handles click events on the window.
+ * Closes dropdowns if the click is outside of the dropdown.
+ * @param {Event} event - The click event.
+ */
+function handleWindowClick(event) {
+    if (!event.target.matches('.drop-logo')) {
+        document.querySelectorAll(".dropdown-content.show").forEach(dropdown => {
+            dropdown.classList.remove('show');
+        });
+    }
+}
+
+/**
+ * Handles orientation changes and resizes.
+ */
+function checkOrientation() {
+    // Implementation of checkOrientation
+}
+
 
 /**
  * Renders the contacts grouped by their first letter and displays them in the UI.
