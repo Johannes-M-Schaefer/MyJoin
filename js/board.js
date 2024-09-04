@@ -1,5 +1,6 @@
 let currentDraggedElement;
 
+document.addEventListener("DOMContentLoaded", init);
 /**
  * Initializes the application by setting up the current user and displaying tasks.
  * 
@@ -8,13 +9,59 @@ let currentDraggedElement;
  * @returns {Promise<void>}
  */
 async function init() {
-    try {
-        await initCurrentUser();
-        await showTasks(true);
-    } catch (error) {
-        console.error('Error during initialization:', error);
+    await initCurrentUser();
+    await showTasks(true);
+
+    setupEventListeners();
+    setupWindowLoadListener();
+};
+
+function setupEventListeners() {
+    setupAddTaskOverlayClickCloseListener();
+    setupTaskOverlayClickCloseListener();
+}
+
+function setupTaskOverlayClickCloseListener() {
+    const cardOverlay = docId('card_top_overlay');
+    const overlayContent = docId('overlay_top_content');
+    if (cardOverlay && overlayContent) {
+        cardOverlay.addEventListener('click', (event) => {
+            if (!overlayContent.contains(event.target)) {
+                closeOverlayTop();
+            }
+        });
     }
 }
+
+/**
+ * Sets up the event listener for clicks on the document to close the add task overlay
+ * if the click target is the overlay itself.
+ */
+function setupAddTaskOverlayClickCloseListener() {
+    document.addEventListener('click', function (event) {
+        let overlay = docId('add_task_overlay');
+        if (overlay && overlay === event.target) {
+            closeOverlayRight();
+        }
+    });
+}
+
+/**
+ * Closes the add task overlay when the window loads.
+ */
+function setupWindowLoadListener() {
+    resetOverlay();
+}
+
+function resetOverlay() {
+    window.addEventListener('load', function () {
+        closeOverlayRight();
+    });
+    window.addEventListener('beforeunload', function () {
+        closeOverlayRight();
+    });
+}
+
 
 /**
  * Opens the overlay displaying a big task card.
@@ -53,23 +100,7 @@ function closeOverlayTop() {
     }
 }
 
-/**
- * Sets up the event listener to close the big task card overlay when clicking outside its content area.
- * 
- * @function
- * @name EventListener#DOMContentLoaded
- */
-document.addEventListener('DOMContentLoaded', () => {
-    const cardOverlay = docId('card_top_overlay');
-    const overlayContent = docId('overlay_top_content');
-    if (cardOverlay && overlayContent) {
-        cardOverlay.addEventListener('click', (event) => {
-            if (!overlayContent.contains(event.target)) {
-                closeOverlayTop();
-            }
-        });
-    }
-});
+
 
 /**
  * Opens the overlay for adding a task to the board.
@@ -119,12 +150,7 @@ function closeOverlayRight() {
  * @function
  * @name EventListener#click
  */
-document.addEventListener('click', function (event) {
-    let overlay = docId('add_task_overlay');
-    if (overlay && overlay === event.target) {
-        closeOverlayRight();
-    }
-});
+
 
 /**
  * Closes the add task overlay when the window loads.
@@ -132,9 +158,7 @@ document.addEventListener('click', function (event) {
  * @function
  * @name EventListener#load
  */
-window.addEventListener('load', function () {
-    closeOverlayRight();
-});
+
 
 /**
  * Closes the add task overlay before the window unloads.
@@ -279,24 +303,7 @@ function toggleConfirmationOverlay() {
     }
 }
 
-/**
- * Generates HTML content for the confirmation delete overlay.
- * 
- * @param {number} i - The index of the task to be deleted.
- * @returns {string} - The HTML content for the confirmation overlay.
- */
-function confirmationDeleteHTML(i) {
-    return `
-    <div class="confirmation_main-container">
-        <div class="confirmation_top-area">
-            <p>Are you sure?</p>
-        </div>
-        <div class="confirmation_bottom-area">
-            <div onclick="toggleConfirmationOverlay()" id="confirmation_disagree-button" class="confirmation_disagree-button">Discard</div>
-            <div onclick="deleteTaskOnBoard('${i}')" id="confirmation_agree-button" class="confirmation_agree-button">Confirm</div>
-        </div>
-    </div>`;
-}
+
 
 /**
  * Deletes a task from the board.

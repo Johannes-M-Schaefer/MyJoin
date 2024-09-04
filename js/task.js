@@ -36,7 +36,8 @@ async function init() {
 
   docId("log_out").addEventListener('click', logOut);
 
-  document.querySelector('.drop-logo').addEventListener('click', toggleDropdown);
+  /* setupDropdownHandling(); */
+/*   document.querySelector('.drop-logo').addEventListener('click', toggleDropdown);
 
   window.addEventListener('click', function (event) {
     if (!event.target.matches('.drop-logo')) {
@@ -48,7 +49,7 @@ async function init() {
         }
       }
     }
-  });
+  }); */
   
   window.addEventListener('resize', checkOrientation);
   window.addEventListener('orientationchange', checkOrientation);
@@ -57,6 +58,24 @@ async function init() {
 
   setDateRestriction('taskDueDate');
 }
+
+/* function setupDropdownHandling() {
+  // Event-Listener für das Toggle des Dropdowns hinzufügen
+  document.querySelector('.drop-logo').addEventListener('click', toggleDropdown);
+
+  // Event-Listener für das Schließen von Dropdowns bei Klick außerhalb hinzufügen
+  window.addEventListener('click', function (event) {
+    if (!event.target.matches('.drop-logo')) {
+      let dropdowns = document.getElementsByClassName("dropdown-content");
+      for (let i = 0; i < dropdowns.length; i++) {
+        let openDropdown = dropdowns[i];
+        if (openDropdown.classList.contains('show')) {
+          openDropdown.classList.remove('show');
+        }
+      }
+    }
+  });
+} */
 
 /**
  * Sends a task to the server (e.g., Firebase). If an ID is provided, the task is updated; otherwise, a new task is created.
@@ -76,7 +95,7 @@ async function sendTask(id) {
     await postData('/tasks', task);
   }
   clearAddTask();
-  add_animations();
+  showSendTaskPopup();
   init();
 }
 
@@ -203,7 +222,7 @@ function toggleCategoryDropdown() {
 /**
  * Closes dropdowns if clicked outside of them.
  */
-document.addEventListener('click', function(event) {
+/* document.addEventListener('click', function(event) {
   ['assignedDropdown', 'categoryDropdown'].forEach(id => {
     let dropdown = docId(id);
     let offsetDivId = id === 'assignedDropdown' ? 'addCategory' : 'add_subtasks';
@@ -212,7 +231,7 @@ document.addEventListener('click', function(event) {
       addOffSetToHeight('', docId(offsetDivId));
     }
   });
-});
+}); */
 
 /**
  * Adds offset height to the specified div based on another div's height.
@@ -403,9 +422,9 @@ function clearAddTask() {
 /**
  * Adds animations for sending the task.
  */
-function add_animations() {
-  docId('hidden_container').classList.add('visible');
-  docId('hidden_popup').classList.add('visible');
+function showSendTaskPopup() {
+    docId('hidden_container').classList.add('visible');
+    docId('hidden_popup').classList.add('visible');
 
   setTimeout(() => {
     docId('hidden_container').classList.remove('visible');
@@ -421,4 +440,50 @@ function redirect() {
   setTimeout(function() {
     window.location.href = targetUrl;
   }, 1000);
+}
+
+/**
+ * Validates the form on Add Task button click.
+ */
+function validateForm() {
+  let form = docId('myForm');
+
+  if (form.checkValidity()) {
+    sendTask();
+  } else {
+    form.reportValidity();
+  }
+}
+
+/**
+ * Validates the form on Overlay Add Task button click.
+ */
+function validateFormOverlay() {
+  let form = docId('myForm');
+  if (form.checkValidity()) {
+    sendTask();
+    closeOverlayRight();
+    showTasks(false);
+  } else {
+    form.reportValidity();
+  }
+}
+
+/**
+ * Clears the value of an input field.
+ *
+ * @param {string} id - The ID of the input field to clear.
+ */
+function clearInput(id) {
+  docId(id).value = '';
+}
+
+/**
+ * Clears the inner HTML of an element.
+ *
+ * @param {string} id - The ID of the element to clear.
+ * @param {string} html - The HTML content to set for the element.
+ */
+function clearHtml(id, html) {
+  docId(id).innerHTML = html;
 }

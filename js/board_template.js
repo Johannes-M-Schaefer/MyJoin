@@ -325,3 +325,22 @@ function templateEditOverlayFooter(id) {
     </button>
   </div>`;
 }
+
+/**
+ * Generates HTML content for the confirmation delete overlay.
+ * 
+ * @param {number} i - The index of the task to be deleted.
+ * @returns {string} - The HTML content for the confirmation overlay.
+ */
+function confirmationDeleteHTML(i) {
+  return `
+  <div class="confirmation_main-container">
+      <div class="confirmation_top-area">
+          <p>Are you sure?</p>
+      </div>
+      <div class="confirmation_bottom-area">
+          <div onclick="toggleConfirmationOverlay()" id="confirmation_disagree-button" class="confirmation_disagree-button">Discard</div>
+          <div onclick="deleteTaskOnBoard('${i}')" id="confirmation_agree-button" class="confirmation_agree-button">Confirm</div>
+      </div>
+  </div>`;
+}

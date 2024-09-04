@@ -129,63 +129,9 @@ function renderEarliestDueDate() {
  * @event
  */
 document.addEventListener("DOMContentLoaded", async function () {
-    await includeHTML();
-    checkFirstPage();
-    await loadCurrentUsers();
+    await initCurrentUser();
     await loadTasks();
-    showDropUser();
     renderGreeting();
     renderStatusCount();
     renderEarliestDueDate();
-
-    /**
-     * Handles the click event on the logout button, triggering the logOut function.
-     * 
-     * @event
-     */
-    docId("log_out").addEventListener('click', logOut);
-
-    /**
-     * Handles the click event on the drop logo, triggering the toggleDropdown function.
-     * 
-     * @event
-     */
-    document.querySelector('.drop-logo').addEventListener('click', toggleDropdown);
-
-    /**
-     * Handles click events on the window. If the click event's target does not match
-     * the element with class 'drop-logo', it will close any open dropdown menus by
-     * removing the 'show' class from elements with class 'dropdown-content'.
-     * 
-     * @event
-     * @param {Event} event - The click event.
-     */
-    window.addEventListener('click', function (event) {
-        if (!event.target.matches('.drop-logo')) {
-            let dropdowns = docId("dropdown-content");
-            for (let i = 0; i < dropdowns.length; i++) {
-                let openDropdown = dropdowns[i];
-                if (openDropdown.classList.contains('show')) {
-                    openDropdown.classList.remove('show');
-                }
-            }
-        }
-    });
-
-    /**
-     * Handles the resize event on the window, triggering the checkOrientation function.
-     * 
-     * @event
-     */
-    window.addEventListener('resize', checkOrientation);
-
-    /**
-     * Handles the orientationchange event on the window, triggering the checkOrientation function.
-     * 
-     * @event
-     */
-    window.addEventListener('orientationchange', checkOrientation);
-
-    checkOrientation();
-    setInterval(checkOrientation, 500);
 });
