@@ -122,16 +122,18 @@ function renderEarliestDueDate() {
     }
 }
 
+document.addEventListener("DOMContentLoaded", init);
+
 /**
  * Handles the DOMContentLoaded event. This function includes HTML content, checks the current page, 
  * and sets up event listeners and intervals for various functionalities based on the current page.
  * 
  * @event
  */
-document.addEventListener("DOMContentLoaded", async function () {
+async function init() {
     await initCurrentUser();
     await loadTasks();
     renderGreeting();
     renderStatusCount();
     renderEarliestDueDate();
-});
+};

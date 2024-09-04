@@ -44,17 +44,18 @@ function groupContacts() {
  * displaying user information, and setting event listeners for logout and dropdowns.
  * Also handles orientation changes and periodic orientation checks.
  */
+document.addEventListener("DOMContentLoaded", init);
 /**
  * Initializes the application by including HTML snippets, checking user authentication,
  * loading contacts, grouping contacts, rendering contacts, loading current user data,
  * displaying user information, and setting event listeners.
  */
-document.addEventListener("DOMContentLoaded", async function () {
+async function init() {
     await initCurrentUser();
     await initContacts();
     groupContacts();
     renderContacts();
-});
+};
 
 /**
  * Renders the contacts grouped by their first letter and displays them in the UI.
