@@ -11,7 +11,6 @@ document.addEventListener("DOMContentLoaded", init);
 async function init() {
     await initCurrentUser();
     await showTasks(true);
-
     setupEventListeners();
     setupWindowLoadListener();
 };
@@ -118,7 +117,7 @@ async function openOverlayRight() {
         await fetch('template_add_task.html')
             .then(response => response.text())
             .then(html => { form.innerHTML = html; });
-        addTaskContacs();
+        addTaskContacts();
         setTimeout(() => {
             overlay.classList.add('show');
         }, 10);
@@ -350,7 +349,7 @@ async function editOverlayTask(id) {
         });
     let task = getTaskById(id);
     content.innerHTML += templateEditOverlayFooter(id);
-    await addTaskContacs();
+    await addTaskContacts();
     fillTask(task);
     setDateRestriction('taskDueDate');
 }

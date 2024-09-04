@@ -1,4 +1,23 @@
 /**
+ * Handles the DOMContentLoaded event. This function includes HTML content, checks the current page, 
+ * and sets up event listeners and intervals for various functionalities based on the current page.
+ * 
+ * @event
+ */
+document.addEventListener("DOMContentLoaded", init);
+
+/**
+ * Initializes the current user, loads tasks, and renders necessary UI elements.
+ */
+async function init() {
+    await initCurrentUser();
+    await loadTasks();
+    renderGreeting();
+    renderStatusCount();
+    renderEarliestDueDate();
+}
+
+/**
  * Returns a greeting based on the current time of day.
  * 
  * @returns {string} - The appropriate greeting ("Good morning", "Good afternoon", "Good evening", or "Good night").
@@ -121,19 +140,3 @@ function renderEarliestDueDate() {
         dueDate.innerHTML = 'No urgent Deadline';
     }
 }
-
-document.addEventListener("DOMContentLoaded", init);
-
-/**
- * Handles the DOMContentLoaded event. This function includes HTML content, checks the current page, 
- * and sets up event listeners and intervals for various functionalities based on the current page.
- * 
- * @event
- */
-async function init() {
-    await initCurrentUser();
-    await loadTasks();
-    renderGreeting();
-    renderStatusCount();
-    renderEarliestDueDate();
-};

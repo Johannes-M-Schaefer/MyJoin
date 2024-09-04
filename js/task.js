@@ -2,25 +2,7 @@ let assignedContacts = [];
 let subtasks = [];
 let sendTaskStatus = 'To do';
 
-/**
- * Retrieves task data from the form fields.
- *
- * @returns {Object} - The task object.
- */
-function getTaskFromForm() {
-  let task = {
-    title: docId('taskTitle').value,
-    description: docId('taskDescription').value,
-    dueDate: docId('taskDueDate').value,
-    priority: getPriority(),
-    assignedTo: assignedContacts,
-    content: docId('addCategoryInputField').innerHTML,
-    subtasks: subtasks,
-    status: sendTaskStatus
-  };
-  return task;
-}
-
+// Event Listener for DOMContentLoaded to initialize the application
 document.addEventListener("DOMContentLoaded", init);
 
 /**
@@ -28,10 +10,7 @@ document.addEventListener("DOMContentLoaded", init);
  */
 async function init() {
   await initCurrentUser();
-
-  setTimeout(() => {
-    addTaskContacts();
-  }, 1000);
+  await initContacts();
 }
 
 /**
@@ -57,6 +36,39 @@ async function sendTask(id) {
 }
 
 /**
+ * Retrieves task data from the form fields.
+ *
+ * @returns {Object} - The task object.
+ */
+function getTaskFromForm() {
+  return {
+    title: docId('taskTitle').value,
+    description: docId('taskDescription').value,
+    dueDate: docId('taskDueDate').value,
+    priority: getPriority(),
+    assignedTo: assignedContacts,
+    content: docId('addCategoryInputField').innerHTML,
+    subtasks: subtasks,
+    status: sendTaskStatus
+  };
+}
+
+/**
+ * Gets the selected priority in the add task form.
+ *
+ * @returns {string} - The priority level ('Urgent', 'Medium', 'Low').
+ */
+function getPriority() {
+  if (docId('urgentPriority').classList.contains('priority_active')) {
+    return 'Urgent';
+  } else if (docId('mediumPriority').classList.contains('priority_active')) {
+    return 'Medium';
+  } else if (docId('lowPriority').classList.contains('priority_active')) {
+    return 'Low';
+  }
+}
+
+/**
  * Selects the priority of the task based on the provided priority level.
  *
  * @param {string} priority - The priority level (Urgent, Medium, Low).
@@ -76,16 +88,6 @@ function selectPriority(priority) {
     docId('mediumPriority').classList.add('priority_inactive');
     docId('prioGreen').src = './img/prio_green_white.png';
   }
-}
-
-/**
- * Resets the priority in the add task form to the default state.
- */
-function resetPriorityDOM() {
-  docId('mediumPriority').classList.add('priority_active');
-  docId('urgentPriority').classList.add('priority_inactive');
-  docId('lowPriority').classList.add('priority_inactive');
-  docId('prioOrange').src = './img/prio_orange_white.png';
 }
 
 /**
@@ -109,18 +111,49 @@ function clearPriority(reset) {
 }
 
 /**
- * Gets the selected priority in the add task form.
- *
- * @returns {string} - The priority level ('Urgent', 'Medium', 'Low').
+ * Resets the priority in the add task form to the default state.
  */
-function getPriority() {
-  if (docId('urgentPriority').classList.contains('priority_active')) {
-    return 'Urgent';
-  } else if (docId('mediumPriority').classList.contains('priority_active')) {
-    return 'Medium';
-  } else if (docId('lowPriority').classList.contains('priority_active')) {
-    return 'Low';
-  }
+function resetPriorityDOM() {
+  docId('mediumPriority').classList.add('priority_active');
+  docId('urgentPriority').classList.add('priority_inactive');
+  docId('lowPriority').classList.add('priority_inactive');
+  docId('prioOrange').src = './img/prio_orange_white.png';
+}
+
+/**
+ * Toggles the display of the contacts dropdown.
+ */
+function toggleContacsDropdown(event) {
+  let content = docId('assignedDropdown');
+  let category = docId('addCategory');
+  let otherDropdown = docId('categoryDropdown');
+
+  if (!content) return;
+
+  closeOtherDropdown(otherDropdown, 'add_subtasks');
+  const isShowing = content.classList.contains('show');
+  content.classList.toggle('show', !isShowing);
+  addOffSetToHeight(isShowing ? '' : content, category);
+
+  if (event) event.stopPropagation();
+}
+
+/**
+ * Toggles the display of the category dropdown.
+ */
+function toggleCategoryDropdown(event) {
+  let content = docId('categoryDropdown');
+  let addSubtasks = docId('add_subtasks');
+  let otherDropdown = docId('assignedDropdown');
+
+  if (!content) return;
+
+  closeOtherDropdown(otherDropdown, 'addCategory');
+  const isShowing = content.classList.contains('show');
+  content.classList.toggle('show', !isShowing);
+  addOffSetToHeight(isShowing ? '' : content, addSubtasks);
+
+  if (event) event.stopPropagation();
 }
 
 /**
@@ -134,46 +167,6 @@ function closeOtherDropdown(otherDropdown, id) {
     otherDropdown.classList.remove('show');
     addOffSetToHeight('', docId(id));
   }
-}
-
-/**
- * Toggles the display of the contacts dropdown.
- */
-function toggleContacsDropdown() {
-  let content = docId('assignedDropdown');
-  let category = docId('addCategory');
-  let otherDropdown = docId('categoryDropdown');
-
-  closeOtherDropdown(otherDropdown, 'add_subtasks');
-  if (content.classList.contains('show')) {
-    content.classList.remove('show');
-    addOffSetToHeight('', category);
-  } else {
-    content.classList.add('show');
-    addOffSetToHeight(content, category);
-  }
-  event.stopPropagation();
-}
-
-/**
- * Toggles the display of the category dropdown.
- */
-function toggleCategoryDropdown() {
-  let content = docId('categoryDropdown');
-  let addSubtasks = docId('add_subtasks');
-  let otherDropdown = docId('assignedDropdown');
-
-  closeOtherDropdown(otherDropdown, 'addCategory');
-  if (content) {
-    if (content.classList.contains('show')) {
-      content.classList.remove('show');
-      addOffSetToHeight('', addSubtasks);
-    } else {
-      content.classList.add('show');
-      addOffSetToHeight(content, addSubtasks);
-    }
-  }
-  event.stopPropagation();
 }
 
 /**
@@ -232,13 +225,13 @@ function selectContact(contactId) {
 function toggleCheckbox(contactId) {
   const checkboxContainer = docId(`checkbox-manuell-${contactId}`);
   const currentSvg = checkboxContainer.innerHTML;
-  
+
   const checked = `
     <svg id="checked" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M20 11V17C20 18.6569 18.6569 20 17 20H7C5.34315 20 4 18.6569 4 17V7C4 5.34315 5.34315 4 7 4H15" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"/>
       <path d="M8 12L12 16L20 4.5" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
     </svg>`;
-  
+
   if (currentSvg.includes('unchecked')) {
     checkboxContainer.innerHTML = checked;
   } else {
@@ -266,8 +259,7 @@ function renderAssignedContact() {
  * @param {string} text - The category text to select.
  */
 function selectCategory(text) {
-  let inputField = docId('addCategoryInputField');
-  inputField.innerHTML = text;
+  docId('addCategoryInputField').innerHTML = text;
 }
 
 /**
@@ -366,8 +358,8 @@ function clearAddTask() {
  * Adds animations for sending the task.
  */
 function showSendTaskPopup() {
-    docId('hidden_container').classList.add('visible');
-    docId('hidden_popup').classList.add('visible');
+  docId('hidden_container').classList.add('visible');
+  docId('hidden_popup').classList.add('visible');
 
   setTimeout(() => {
     docId('hidden_container').classList.remove('visible');
@@ -380,7 +372,7 @@ function showSendTaskPopup() {
  */
 function redirect() {
   var targetUrl = window.location.origin + '/board.html';
-  setTimeout(function() {
+  setTimeout(function () {
     window.location.href = targetUrl;
   }, 1000);
 }
@@ -390,7 +382,6 @@ function redirect() {
  */
 function validateForm() {
   let form = docId('myForm');
-
   if (form.checkValidity()) {
     sendTask();
   } else {

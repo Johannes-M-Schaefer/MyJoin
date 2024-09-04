@@ -86,7 +86,7 @@ function handleEmailKeyup() {
  * @param {Event} e - The form submit event.
  */
 async function handleFormSubmit(e) {
-    e.preventDefault(e);
+    e.preventDefault();
 
     const formData = new FormData(docId('signupForm'));
     const email = formData.get('user_email');
@@ -94,42 +94,41 @@ async function handleFormSubmit(e) {
     const confirm = formData.get('user_password_confirm');
 
     if (password !== confirm) {
-        passwordConfirmError();
-        return;
+        return passwordConfirmError();
     }
 
     if (userEmailExists(email)) {
-        emailExistError();
-        return;
+        return emailExistError();
     }
 
-    const userData = {};
-    for (const [key, value] of formData.entries()) {
-        userData[key] = value;
-    }
+    const userData = Object.fromEntries(formData.entries());
     userData.id = generateId();
 
     await postData("/users", userData);
-    docId('popup_container').classList.add('show');
-    docId('popup').classList.add('show');
-
-    setTimeout(() => {
-        window.location.href = 'index.html';
-    }, 2000);
+    showPopupAndRedirect();
 }
 
+/**
+ * Shows the popup and redirects to the homepage after a delay.
+ */
+function showPopupAndRedirect() {
+    docId('popup_container').classList.add('show');
+    docId('popup').classList.add('show');
+    setTimeout(() => window.location.href = 'index.html', 2000);
+}
+
+
+document.addEventListener("DOMContentLoaded", init);
 /**
  * Initializes event listeners and performs initial checks when the DOM is fully loaded.
  * @async
  */
-document.addEventListener("DOMContentLoaded", async function () {
+async function init() {
     await loadUsers();
-
     registerEventListener();
     checkOrientation();
-
     setInterval(checkOrientation, 500);
-});
+};
 
 /**
  * Registers event listeners for form submission and input field keyup events.

@@ -173,7 +173,6 @@ async function getData(path = "") {
 
     // Überprüfen, ob die Daten gültig sind und nicht null
     if (data === null || data === undefined) {
-      console.error('Error: Response JSON is null or undefined', data);
       return null;
     }
 
@@ -267,7 +266,6 @@ async function loadCurrentUsers() {
       // Objektwerte extrahieren
       currentUser = Object.values(loadedCurrentUser)[0];
     } else {
-      console.error('Error: Loaded current user data is not valid.', loadedCurrentUser);
       currentUser = null; // oder setzen Sie hier eine sinnvolle Standardaktion
     }
   } catch (error) {
