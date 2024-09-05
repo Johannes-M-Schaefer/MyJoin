@@ -397,17 +397,6 @@ body {
     }
 }
 
-.add-contact_main-container {
-    position: fixed;
-    top: 0;
-    right: 0;
-    height: 100vh;
-    transform: translateX(100%);
-    opacity: 0;
-    animation: slideInRight 0.5s forwards;
-    z-index: 102;
-}
-
 #close-add-area {
     position: absolute;
     top: 0;
