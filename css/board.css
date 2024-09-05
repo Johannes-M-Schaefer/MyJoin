@@ -218,7 +218,11 @@ body {
 }
 
 .add_task_overlay.show .overlay_right {
-  transform: translateX(0);
+  animation: slideInRight 0.5s forwards;
+}
+
+.add_task_overlay.hide .overlay_right {
+  animation: slideOutRight 0.5s forwards;
 }
 
 .overlay_right {

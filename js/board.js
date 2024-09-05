@@ -109,18 +109,19 @@ function closeOverlayTop() {
  * @returns {Promise<void>}
  */
 async function openOverlayRight() {
-    let overlay = docId('add_task_overlay');
+    let overlay = document.getElementById('add_task_overlay');
     if (overlay) {
-        docId('overlay_top_content').innerHTML = '';
-        overlay.style.display = 'flex';
-        const form = docId('add_task_overlay_content');
+        document.getElementById('overlay_top_content').innerHTML = '';
+        overlay.style.display = 'flex'; 
+        const form = document.getElementById('add_task_overlay_content');
         await fetch('template_add_task.html')
             .then(response => response.text())
             .then(html => { form.innerHTML = html; });
         addTaskContacts();
         setTimeout(() => {
-            overlay.classList.add('show');
-        }, 10);
+            overlay.classList.remove('hide'); 
+            overlay.classList.add('show'); 
+        }, 10); 
         setDateRestriction('taskDueDate');
     }
 }
@@ -131,13 +132,15 @@ async function openOverlayRight() {
  * @function closeOverlayRight
  */
 function closeOverlayRight() {
-    let overlay = docId('add_task_overlay');
+    let overlay = document.getElementById('add_task_overlay');
     if (overlay) {
-        overlay.classList.remove('show');
-        overlay.addEventListener('transitionend', function handleTransitionEnd() {
+        overlay.classList.remove('show'); 
+        overlay.classList.add('hide'); 
+        overlay.addEventListener('animationend', function handleAnimationEnd() {
             if (!overlay.classList.contains('show')) {
                 overlay.style.display = 'none';
-                overlay.removeEventListener('transitionend', handleTransitionEnd);
+                overlay.classList.remove('hide'); 
+                overlay.removeEventListener('animationend', handleAnimationEnd);
             }
         });
     }

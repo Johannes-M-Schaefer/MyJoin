@@ -50,9 +50,6 @@ body {
     color: #ffffff;
 }
 
-
-
-
 .blue-button-container,
 .cancel-button-container,
 .create-button-container,
@@ -66,21 +63,6 @@ body {
     top: 100vh - 96px;
     left: 0;
     bottom: 0;
-}
-
-.input-error {
-    border-radius: 3px;
-    background-color: rgba(255, 107, 107, 0.5);
-    animation: shake 0.5s;
-    z-index: 2;
-}
-
-@keyframes shake {
-    0% { transform: translateX(0); }
-    25% { transform: translateX(-5px); }
-    50% { transform: translateX(5px); }
-    75% { transform: translateX(-5px); }
-    100% { transform: translateX(0); }
 }
 
 .contacts-main-container {
@@ -349,52 +331,23 @@ body {
     transform: translateX(5px);
 }
 
+/* add contact container */
+.add-contact_main-container {
+    position: absolute;
+    top: 0;
+    right: 0;
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100vh;
+    transform: translateX(100%);
+    opacity: 0;
+    animation: slideInRight 0.5s forwards;
+    z-index: 102;
+}
+
 .add-contact_main-container.hide {
     animation: slideOutRight 0.5s forwards;
-}
-
-@keyframes slideInRight {
-    0% {
-        transform: translateX(100%);
-        opacity: 0;
-    }
-    100% {
-        transform: translateX(0);
-        opacity: 1;
-    }
-}
-
-@keyframes slideOutRight {
-    0% {
-        transform: translateX(0);
-        opacity: 1;
-    }
-    100% {
-        transform: translateX(100%);
-        opacity: 0;
-    }
-}
-
-@keyframes slideInLeft {
-    0% {
-        transform: translateX(-100%);
-        opacity: 0;
-    }
-    100% {
-        transform: translateX(0);
-        opacity: 1;
-    }
-}
-
-@keyframes slideOutLeft {
-    0% {
-        transform: translateX(0);
-        opacity: 1;
-    }
-    100% {
-        transform: translateX(-100%);
-        opacity: 0;
-    }
 }
 
 #close-add-area {
@@ -548,10 +501,12 @@ body {
     gap: 12px;
 }
 
+/* edit container */
 .edit-contact_main-container {
     position: fixed;
     top: 0;
     left: 0;
+    bottom: 0;
     height: 100vh;
     transform: translateX(-100%);
     opacity: 0;
@@ -611,13 +566,6 @@ body {
     border-radius: 100%;
 }
 
-.input-container {
-    border-bottom: solid gray 1px;
-    margin-top: 8px;
-    transition: transform 0.3s ease, font-size 0.3s ease;
-    padding: 4px;
-}
-
 .name-input,
 .email-input,
 .phone-input {
@@ -638,11 +586,6 @@ body {
 .email-input:focus,
 .phone-input:focus {
     outline: none;
-}
-
-.input-container:hover {
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-    transform: scale(1.03);
 }
 
 .blue-button-container {
@@ -709,24 +652,6 @@ body {
     display: flex;
 }
 
-@keyframes slideInOut {
-    0% {
-        transform: translateY(100vh);
-        opacity: 0;
-    }
-    25% {
-        transform: translateY(0);
-        opacity: 1;
-    }
-    75% {
-        transform: translateY(0);
-        opacity: 1;
-    }
-    100% {
-        transform: translateY(100vh);
-        opacity: 0;
-    }
-}
 
 /* START Responsiveness */
 @media (min-width: 1200px) {
@@ -793,17 +718,6 @@ body {
     .arrow_return_div {
         display: flex;
         justify-content: flex-end;
-    }
-
-    .my-arrow-container img {
-        width: 44px;
-        transition: transform 0.3s ease-in-out;
-        margin-bottom: 20px;
-    }
-
-    .my-arrow-container img:hover {
-        cursor: pointer;
-        transform: scale(1.2);
     }
 }
 
