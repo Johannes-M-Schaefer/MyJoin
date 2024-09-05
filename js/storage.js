@@ -1,5 +1,3 @@
-// firebase-operations.js
-
 /**
  * Base URL for Firebase Realtime Database where data is stored.
  * @constant {string} STORAGE_URL
@@ -29,6 +27,24 @@ let tasks = [];
  * @type {Array}
  */
 let contacts = [];
+
+/**
+ * Updates data in the Firebase Realtime Database at a specified path.
+ * @async
+ * @param {string} [path=''] - The path in the database where data should be updated.
+ * @param {Object} [data={}] - The data object to update in the database.
+ * @returns {Promise<Object>} A promise that resolves to the JSON response from the server.
+ */
+async function updateData(path = '', data = {}) {
+  let response = await fetch(STORAGE_URL + path + '.json', {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  });
+  return await response.json();
+}
 
 /**
  * Posts new data to the Firebase Realtime Database at a specified path.
@@ -81,24 +97,6 @@ async function getData(path = "") {
 async function deleteData(path = '') {
   let response = await fetch(STORAGE_URL + path + '.json', {
     method: 'DELETE',
-  });
-  return await response.json();
-}
-
-/**
- * Updates data in the Firebase Realtime Database at a specified path.
- * @async
- * @param {string} [path=''] - The path in the database where data should be updated.
- * @param {Object} [data={}] - The data object to update in the database.
- * @returns {Promise<Object>} A promise that resolves to the JSON response from the server.
- */
-async function updateData(path = '', data = {}) {
-  let response = await fetch(STORAGE_URL + path + '.json', {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(data),
   });
   return await response.json();
 }

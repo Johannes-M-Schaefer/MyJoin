@@ -167,6 +167,13 @@ function getTaskFromForm() {
    */
   function selectContact(contactId) {
     let assignedContact = docId(contactId);
+    
+    // Check if assignedContact is not null
+    if (!assignedContact) {
+      console.error(`Element with ID ${contactId} not found.`);
+      return; // Exit the function early if the element is not found
+    }
+  
     let index = assignedContacts.indexOf(contactId);
     if (index === -1) {
       assignedContacts.push(contactId);
@@ -177,8 +184,10 @@ function getTaskFromForm() {
       assignedContact.classList.remove('active');
       toggleCheckbox(contactId);
     }
+  
     renderAssignedContact();
   }
+  
   
   /**
    * Toggles the checkbox state for the contact.

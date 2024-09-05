@@ -1,10 +1,4 @@
 /**
- * Represents the current element being dragged.
- * @type {HTMLElement | null}
- */
-let currentDraggedElement;
-
-/**
  * Sets up event listeners and initializes the application when the DOM is fully loaded.
  */
 document.addEventListener("DOMContentLoaded", init);
@@ -64,18 +58,6 @@ function setupAddTaskOverlayClickCloseListener() {
  */
 function setupWindowLoadListener() {
     resetOverlay();
-}
-
-/**
- * Resets the overlay by adding event listeners for window load and before unload events.
- */
-function resetOverlay() {
-    window.addEventListener('load', function () {
-        closeOverlayRight();
-    });
-    window.addEventListener('beforeunload', function () {
-        closeOverlayRight();
-    });
 }
 
 /**
@@ -161,83 +143,6 @@ function closeOverlayRight() {
 }
 
 /**
- * Clears all task columns on the board.
- * 
- * @function clearBoard
- */
-function clearBoard() {
-    docId('drag_to_do').innerHTML = '';
-    docId('drag_in_progress').innerHTML = '';
-    docId('drag_await_feedback').innerHTML = '';
-    docId('drag_done').innerHTML = '';
-}
-
-/**
- * Switches the status of a task and renders it in the appropriate column on the board.
- * 
- * @param {Object} task - The task object.
- * @param {number} i - The index of the task.
- */
-function switchStatusCase(task, i) {
-    switch (task.status.toLowerCase()) {
-        case 'to do':
-            docId('drag_to_do').innerHTML += renderTask(task, i);
-            break;
-        case 'in progress':
-            docId('drag_in_progress').innerHTML += renderTask(task, i);
-            break;
-        case 'await feedback':
-            docId('drag_await_feedback').innerHTML += renderTask(task, i);
-            break;
-        case 'done':
-            docId('drag_done').innerHTML += renderTask(task, i);
-    }
-}
-
-/**
- * Sets the status for sending a task.
- * 
- * @param {string} status - The status to be set.
- */
-function setSendTaskStatus(status) {
-    sendTaskStatus = status;
-}
-
-/**
- * Renders all tasks on the board.
- * 
- * @function renderAllTasks
- */
-function renderAllTasks() {
-    clearBoard();
-    for (let i = 0; i < tasks.length; i++) {
-        switchStatusCase(tasks[i], i);
-    }
-    renderNoTask();
-    setDragEventListeners();
-}
-
-/**
- * Renders a "No Task" badge if there are no tasks in a column.
- * 
- * @function renderNoTask
- */
-function renderNoTask() {
-    if (docId('drag_to_do').innerHTML == '') {
-        docId('drag_to_do').innerHTML = templateNoTask('To do');
-    }
-    if (docId('drag_in_progress').innerHTML == '') {
-        docId('drag_in_progress').innerHTML = templateNoTask('In progress');
-    }
-    if (docId('drag_await_feedback').innerHTML == '') {
-        docId('drag_await_feedback').innerHTML = templateNoTask('Awaiting feedback');
-    }
-    if (docId('drag_done').innerHTML == '') {
-        docId('drag_done').innerHTML = templateNoTask('Done');
-    }
-}
-
-/**
  * Loads tasks and renders them on the board.
  * 
  * @async
@@ -254,148 +159,62 @@ async function showTasks(reloadContacts) {
 }
 
 /**
- * Updates the status of a task on the board.
- * 
- * @function updateTaskStatus
- * @param {string} id - The ID of the task.
- * @param {string} status - The new status of the task.
- */
-function updateTaskStatus(id, status) {
-    let task = getTaskById(id);
-    task.status = status;
-    updateTaskById(task.id, task);
-}
-
-/**
- * Shows a confirmation overlay for deleting a task.
- * 
- * @param {number} i - The index of the task to be deleted.
- */
-function confirmationDelete(i) {
-    let confirmationOverlay = docId('confirmation_overlay');
-    confirmationOverlay.innerHTML = confirmationDeleteHTML(i);
-    toggleConfirmationOverlay();
-}
-
-/**
- * Toggles the visibility of the confirmation overlay.
- * 
- * @function toggleConfirmationOverlay
- */
-function toggleConfirmationOverlay() {
-    let confirmationOverlay = docId('confirmation_overlay');
-    if (confirmationOverlay.classList.contains('d-none')) {
-        confirmationOverlay.classList.remove('d-none');
-        confirmationOverlay.classList.add('d-flex');
-    } else {
-        confirmationOverlay.classList.remove('d-flex');
-        confirmationOverlay.classList.add('d-none');
-    }
-}
-
-/**
- * Deletes a task from the board.
- * 
- * @function deleteTaskOnBoard
- * @param {string} id - The ID of the task.
- */
-function deleteTaskOnBoard(id) {
-    tasks = deleteById(tasks, id);
-    deleteTaskById(id);
-    toggleConfirmationOverlay();
-    closeOverlayTop();
-    renderAllTasks();
-}
-
-/**
- * Builds and displays the overlay for a big task card.
- * 
- * @function buildOverlayCard
- * @param {number} i - The index of the task.
- */
-function buildOverlayCard(i) {
-    let content = docId('overlay_top_content');
-    let task = tasks[i];
-    content.innerHTML = templateBuildOverlayCard(task);
-}
-
-/**
- * Edits a task in the overlay.
+ * Edits a task in the overlay by loading necessary HTML templates and filling in the task data.
  * 
  * @async
  * @function editOverlayTask
- * @param {string} id - The ID of the task.
- * @returns {Promise<void>}
+ * @param {string} id - The ID of the task to edit.
  */
 async function editOverlayTask(id) {
-    docId('add_task_overlay_content').innerHTML = '';
-    const content = docId('overlay_top_content');
-    content.innerHTML = templateEditOverlayHeader();
-    await fetch('template_add_task.html')
-        .then(response => response.text())
-        .then(html => {
-            docId('overlay_top_header').innerHTML += html;
-        });
-    let task = getTaskById(id);
-    content.innerHTML += templateEditOverlayFooter(id);
-    await addTaskContacts();
+    clearTaskOverlay();
+    await loadOverlayTemplates();
+    const task = getTaskById(id);
+    prepareTaskOverlayFooter(id);
+    await loadAndDisplayContacts();
     fillTask(task);
     setDateRestriction('taskDueDate');
 }
 
 /**
- * Fills the add task template with existing task data for editing.
- * 
- * @param {Object} task - The task object.
+ * Clears the content of the add task overlay.
  */
-function fillTask(task) {
-    docId('taskTitle').value = task.title;
-    docId('taskDescription').value = task.description;
-    docId('taskDueDate').value = task.dueDate;
-    selectPriority(task.priority);
-    assignedContacts = [];
-    for (let i = 0; i < task.assignedTo.length; i++) {
-        selectContact(task.assignedTo[i]);
-    }
-    docId('addCategoryInputField').innerHTML = task.content;
-    subtasks = [];
-    for (let i = 0; i < task.subtasks.length; i++) {
-        subtasks.push(task.subtasks[i]);
-    }
-    renderSubtasks();
+function clearTaskOverlay() {
+    docId('add_task_overlay_content').innerHTML = '';
+    docId('overlay_top_content').innerHTML = '';
 }
 
 /**
- * Gets the status name based on the status ID.
+ * Loads the necessary HTML templates for the overlay and appends them to the DOM.
  * 
- * @param {string} statusId - The status ID.
- * @returns {string} - The status name.
+ * @async
  */
-function getStatusNameByStatusID(statusId) {
-    if (statusId == 'drag_to_do') return 'To do';
-    if (statusId == 'drag_in_progress') return 'In progress';
-    if (statusId == 'drag_await_feedback') return 'Await feedback';
-    if (statusId == 'drag_done') return 'Done';
+async function loadTaskOverlay() {
+    const content = docId('overlay_top_content');
+    content.innerHTML = templateEditOverlayHeader();
+
+    const html = await fetch('template_add_task.html').then(response => response.text());
+    docId('overlay_top_header').innerHTML += html;
 }
 
 /**
- * Updates the status of a subtask as finished or unfinished.
+ * Prepares and sets the footer template for the overlay.
  * 
- * @param {string} subtaskName - The name of the subtask.
- * @param {string} id - The ID of the task.
+ * @param {string} id - The ID of the task for which to prepare the footer.
  */
-function finishSubtask(subtaskName, id) {
-    let task = getTaskById(id);
-    if (!task.finishedSubtasks) {
-        task.finishedSubtasks = [];
-        task.finishedSubtasks.push(subtaskName);
-    } else if (task.finishedSubtasks.indexOf(subtaskName) > -1) {
-        task.finishedSubtasks.splice(task.finishedSubtasks.indexOf(subtaskName), 1);
-    } else {
-        task.finishedSubtasks.push(subtaskName);
-    }
-    updateTaskById(id, task);
+function prepareTaskOverlayFooter(id) {
+    const content = docId('overlay_top_content');
+    content.innerHTML += templateEditOverlayFooter(id);
 }
+
+/**
+ * Loads contacts and displays them in the add task overlay.
+ * 
+ * @async
+ */
+async function loadAndDisplayContacts() {
+    await addTaskContacts();
+}
+
 
 /**
  * Filters tasks based on the search input.
@@ -403,28 +222,17 @@ function finishSubtask(subtaskName, id) {
  * @function filterTask
  */
 function filterTask() {
-    let search = docId('findTask').value.toLowerCase();
-    if (search.length >= 3) {
-        for (let i = 0; i < tasks.length; i++) {
-            if (tasks[i].title.toLowerCase().includes(search) || tasks[i].description.toLowerCase().includes(search)) {
-                docId(`${tasks[i].id}`).style.display = 'block';
-            } else {
-                docId(`${tasks[i].id}`).style.display = 'none';
-            }
-        }
-    } else {
-        for (let i = 0; i < tasks.length; i++) {
-            docId(`${tasks[i].id}`).style.display = 'block';
+    const search = docId('findTask').value.toLowerCase();
+    const displayAll = search.length < 3;
+
+    for (let i = 0; i < tasks.length; i++) {
+        const taskElement = docId(tasks[i].id);
+        const matchesSearch = tasks[i].title.toLowerCase().includes(search) || tasks[i].description.toLowerCase().includes(search);
+        
+        if (displayAll || matchesSearch) {
+            taskElement.style.display = 'flex';
+        } else {
+            taskElement.style.display = 'none';
         }
     }
 }
-
-/**
- * Closes the add task overlay before the window unloads.
- * 
- * @function
- * @name EventListener#beforeunload
- */
-window.addEventListener('beforeunload', function () {
-    closeOverlayRight();
-});

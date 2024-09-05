@@ -4,6 +4,7 @@
  */
 let currentUser = null;
 
+
 /**
  * Retrieves an element from the DOM by its ID.
  * @param {string} id - The ID of the HTML element.
@@ -109,6 +110,16 @@ async function loadCurrentUsers() {
 }
 
 /**
+ * Loads all user objects from the '/users' path in the Firebase Realtime Database.
+ * Updates the global `users` array with the retrieved users.
+ * @async
+ */
+async function loadUsers() {
+  let loadedUsers = await getData('/users');
+  users.push(...Object.values(loadedUsers));
+}
+
+/**
  * Logs out the current user by deleting their data from the database and clearing local storage.
  * Redirects the user to the login page after logout.
  * @async
@@ -128,6 +139,87 @@ function showDropUser() {
     const initials = getInitials(currentUser.user_name);
     docId("drop_user").innerHTML = initials;
   }
+}
+
+/**
+ * Retrieves a task object from the `tasks` array based on the provided ID.
+ * @param {string} id - The ID of the task to retrieve.
+ * @returns {Object|undefined} The task object matching the ID, or undefined if not found.
+ */
+function getTaskById(id) {
+  return tasks.find(task => task.id === id);
+}
+
+/**
+ * Retrieves a contact object from the `contacts` array based on the provided ID.
+ * @param {string} id - The ID of the contact to retrieve.
+ * @returns {Object|undefined} The contact object matching the ID, or undefined if not found.
+ */
+function getContactById(id) {
+  return contacts.find(contact => contact.id === id);
+}
+
+/**
+ * Deletes an item from an array based on its ID.
+ * @param {Array} array - The array from which to delete an item.
+ * @param {string} idToDelete - The ID of the item to delete.
+ * @returns {Array} The updated array after deletion.
+ */
+function deleteById(array, idToDelete) {
+  return array.filter(item => item.id !== idToDelete);
+}
+
+/**
+ * Validates the form submission. Prevents the default submission if the form is invalid.
+ * @param {Event} event - The form submit event.
+ */
+function validateFormSubmit(event) {
+  const form = event.target;
+  if (!form.checkValidity()) {
+    event.preventDefault();
+    event.stopPropagation();
+  }
+}
+
+/**
+ * Sets a cookie with the given name and value for the specified number of days.
+ * @param {string} name - The name of the cookie.
+ * @param {string} value - The value of the cookie.
+ * @param {number} [days] - The number of days until the cookie expires.
+ */
+function setCookie(name, value, days) {
+  let expires = "";
+  if (days) {
+    let date = new Date();
+    date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+    expires = "; expires=" + date.toUTCString();
+  }
+  document.cookie = name + "=" + (value || "") + expires + "; path=/";
+}
+
+/**
+ * Retrieves the value of the cookie with the specified name.
+ * @param {string} name - The name of the cookie.
+ * @returns {string|null} The value of the cookie, or null if the cookie does not exist.
+ */
+function getCookie(name) {
+  const nameEQ = name + "=";
+  const cookies = document.cookie.split(';');
+  for (let i = 0; i < cookies.length; i++) {
+    let cookie = cookies[i].trim();
+    if (cookie.indexOf(nameEQ) === 0) {
+      return cookie.substring(nameEQ.length, cookie.length);
+    }
+  }
+  return null;
+}
+
+/**
+ * Erases the cookie with the specified name.
+ * @param {string} name - The name of the cookie to erase.
+ */
+function eraseCookie(name) {
+  document.cookie = name + '=; Max-Age=-99999999;';
 }
 
 /**
@@ -180,4 +272,15 @@ function checkOrientation() {
  */
 function isMobileDevice() {
   return /Mobi|Android/i.test(navigator.userAgent);
+}
+
+/**
+ * Sets the minimum date of the input field specified by 'id' to today's date.
+ * Prevents selection of past dates.
+ *
+ * @param {string} id - The ID of the date input field to set the restriction on.
+ */
+function setDateRestriction(id) {
+  const today = new Date().toISOString().split('T')[0];
+  docId(id).setAttribute('min', today);
 }

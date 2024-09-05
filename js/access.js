@@ -77,8 +77,8 @@ function handleBackButtonClick(event) {
  * @function setupAuthenticatedEventListeners
  */
 function setupAuthenticatedEventListeners() {
-    addEventListenerToElement("log_out", 'click', logOut);
-    addEventListenerToElement("back", 'click', handleBackButtonClick);
+    document.getElementById("log_out").addEventListener('click', logOut);
+    document.getElementById("back").addEventListener("click", handleBackButtonClick);
     document.querySelector('.drop-logo').addEventListener('click', toggleDropdown);
     window.addEventListener('click', handleOutsideDropdownClick);
 }
