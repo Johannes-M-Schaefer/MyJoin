@@ -1,3 +1,9 @@
+/**
+ * Adds an event listener to the document that initializes the registration page
+ * once the DOM content is fully loaded.
+ * 
+ * @event DOMContentLoaded
+ */
 document.addEventListener("DOMContentLoaded", init);
 
 /**

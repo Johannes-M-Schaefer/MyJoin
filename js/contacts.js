@@ -11,15 +11,23 @@ let selectedContact = null;
 let groupedContacts = groupContacts();
 
 /**
- * Retrieves input values for a new contact from the form.
- * @returns {Object} An object containing the name, email, and mobile number of the new contact.
+ * Initializes the application by including HTML snippets, checking user authentication,
+ * loading contacts, grouping contacts, rendering contacts, loading current user data,
+ * displaying user information, and setting event listeners for logout and dropdowns.
+ * Also handles orientation changes and periodic orientation checks.
  */
-function getNewInput() {
-    return {
-        name: docId('edit-name').value,
-        email: docId('edit-email').value,
-        mobile: docId('edit-mobile').value
-    };
+document.addEventListener("DOMContentLoaded", init);
+
+/**
+ * Initializes the application by including HTML snippets, checking user authentication,
+ * loading contacts, grouping contacts, rendering contacts, loading current user data,
+ * displaying user information, and setting event listeners.
+ */
+async function init() {
+    await initCurrentUser();
+    await initContacts();
+    groupContacts();
+    renderContacts();
 }
 
 /**
@@ -39,23 +47,16 @@ function groupContacts() {
 }
 
 /**
- * Initializes the application by including HTML snippets, checking user authentication,
- * loading contacts, grouping contacts, rendering contacts, loading current user data,
- * displaying user information, and setting event listeners for logout and dropdowns.
- * Also handles orientation changes and periodic orientation checks.
+ * Retrieves input values for a new contact from the form.
+ * @returns {Object} An object containing the name, email, and mobile number of the new contact.
  */
-document.addEventListener("DOMContentLoaded", init);
-/**
- * Initializes the application by including HTML snippets, checking user authentication,
- * loading contacts, grouping contacts, rendering contacts, loading current user data,
- * displaying user information, and setting event listeners.
- */
-async function init() {
-    await initCurrentUser();
-    await initContacts();
-    groupContacts();
-    renderContacts();
-};
+function getNewInput() {
+    return {
+        name: docId('edit-name').value,
+        email: docId('edit-email').value,
+        mobile: docId('edit-mobile').value
+    };
+}
 
 /**
  * Renders the contacts grouped by their first letter and displays them in the UI.
@@ -145,21 +146,6 @@ async function addContact(event) {
 }
 
 /**
- * Deletes a contact from the database based on its index in the contacts array.
- * @param {number} i - Index of the contact to be deleted.
- */
-async function deleteContact(i) {
-    let contactId = contacts[i].id;
-    toggleConfirmationOverlay();
-    await deleteData(`/contacts/${contactId}`);
-    console.log("Contact deleted:", contactId);
-    init();
-    docId('selected-container').classList.add('d-none');
-    closeSelectedContactOverlay();
-    showDeletePopup();
-}
-
-/**
  * Edits a contact in the database based on its index in the contacts array.
  * @param {number} i - Index of the contact to be edited.
  */
@@ -175,6 +161,21 @@ async function editContact(i) {
     closeSelectedContactOverlay();
     closeEditContactOverlay();
     init();
+}
+
+/**
+ * Deletes a contact from the database based on its index in the contacts array.
+ * @param {number} i - Index of the contact to be deleted.
+ */
+async function deleteContact(i) {
+    let contactId = contacts[i].id;
+    toggleConfirmationOverlay();
+    await deleteData(`/contacts/${contactId}`);
+    console.log("Contact deleted:", contactId);
+    init();
+    docId('selected-container').classList.add('d-none');
+    closeSelectedContactOverlay();
+    showDeletePopup();
 }
 
 /**

@@ -1,3 +1,9 @@
+/**
+ * Adds an event listener to the document that initializes the application
+ * once the DOM content is fully loaded.
+ * 
+ * @event DOMContentLoaded
+ */
 document.addEventListener("DOMContentLoaded", init);
 
 /**

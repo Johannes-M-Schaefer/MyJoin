@@ -18,7 +18,7 @@ function createContactHtml(contact, index) {
         </div>
     </div>
     `;
-}
+};
 
 /**
  * Generates HTML for a group of contacts under a specific letter.
@@ -34,7 +34,7 @@ function createGroupHtml(letter, contactsHtml) {
         <div id="contact-container">${contactsHtml}</div>
     </div>
     `;
-}
+};
 
 /**
  * Generates HTML for displaying detailed information of a selected contact.
@@ -148,7 +148,7 @@ function generateSelectedContactHTML(i) {
             </div>
         </div>
     `;
-}
+};
 
 /**
  * Renders an edit overlay for a specific contact based on index.
@@ -262,7 +262,7 @@ function renderEditOverlay(i) {
     docId('overlay_edit-contact').innerHTML = overlayHTML;
     docId('overlay_edit-contact').classList.remove('d-none');
     activateInputError();
-}
+};
 
 /**
  * Generates HTML markup for the confirmation dialog for deleting a contact.
@@ -284,7 +284,7 @@ function confirmationDeleteHTML(i) {
     </div>
 </div>
     `;
-}
+};
 
 /**
  * Generates HTML markup for the confirmation dialog for editing a contact.
@@ -306,4 +306,4 @@ function confirmationEditHTML(i) {
     </div>
 </div>
     `;
-}
+};

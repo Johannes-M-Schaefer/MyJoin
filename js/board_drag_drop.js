@@ -60,16 +60,6 @@ function startDragging(id) {
   function allowDrop(ev) {
     ev.preventDefault();
   }
-
-  /**
- * Moves a task to a new status.
- * 
- * @param {string} status - The new status of the task.
- */
-/* function moveTo(status) {
-    updateTaskStatus(currentDraggedElement, getStatusNameByStatusID(status));
-    renderAllTasks();
-  } */
   
   /**
    * Highlights a task div during drag and drop.
@@ -104,5 +94,3 @@ function moveTo(status) {
     droppedTask.classList.remove('task-dropped');
   }, 500); 
 }
-
-  

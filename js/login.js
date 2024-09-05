@@ -1,4 +1,11 @@
+/**
+ * Adds an event listener to the document that initializes the login page
+ * once the DOM content is fully loaded.
+ * 
+ * @event DOMContentLoaded
+ */
 document.addEventListener("DOMContentLoaded", init);
+
 /**
  * Initializes the login page by loading user data, setting up event listeners,
  * and populating the login form with saved credentials.

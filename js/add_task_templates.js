@@ -4,7 +4,7 @@
  * @param {boolean} withCheckbox - Flag to include a checkbox.
  * @returns {string} The HTML string for the contact dropdown item.
  */
-function templateBuildContactDropdown(contact, withCheckbox) {
+function templateBuildContactDropdown(contact) {
   let contactName = contact['name'];
   let contactId = contact['id'];
   let initials = templateUserInitials(contact);

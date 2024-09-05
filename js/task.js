@@ -1,7 +1,33 @@
+/**
+ * Array to store the IDs of contacts assigned to the current task.
+ * 
+ * @global
+ * @type {Array<string>}
+ */
 let assignedContacts = [];
+
+/**
+ * Array to store the subtasks of the current task.
+ * 
+ * @global
+ * @type {Array<string>}
+ */
 let subtasks = [];
+
+/**
+ * The current task status to be sent. Defaults to 'To do'.
+ * 
+ * @global
+ * @type {string}
+ */
 let sendTaskStatus = 'To do';
 
+/**
+ * Adds an event listener to the document that initializes the application
+ * once the DOM content is fully loaded.
+ * 
+ * @event DOMContentLoaded
+ */
 document.addEventListener("DOMContentLoaded", init);
 
 /**

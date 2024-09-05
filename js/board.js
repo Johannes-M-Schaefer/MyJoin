@@ -1,6 +1,14 @@
+/**
+ * Represents the current element being dragged.
+ * @type {HTMLElement | null}
+ */
 let currentDraggedElement;
 
+/**
+ * Sets up event listeners and initializes the application when the DOM is fully loaded.
+ */
 document.addEventListener("DOMContentLoaded", init);
+
 /**
  * Initializes the application by setting up the current user and displaying tasks.
  * 
@@ -13,13 +21,19 @@ async function init() {
     await showTasks(true);
     setupEventListeners();
     setupWindowLoadListener();
-};
+}
 
+/**
+ * Sets up event listeners for various elements and actions.
+ */
 function setupEventListeners() {
     setupAddTaskOverlayClickCloseListener();
     setupTaskOverlayClickCloseListener();
 }
 
+/**
+ * Sets up an event listener for clicks outside the task overlay content to close it.
+ */
 function setupTaskOverlayClickCloseListener() {
     const cardOverlay = docId('card_top_overlay');
     const overlayContent = docId('overlay_top_content');
@@ -52,6 +66,9 @@ function setupWindowLoadListener() {
     resetOverlay();
 }
 
+/**
+ * Resets the overlay by adding event listeners for window load and before unload events.
+ */
 function resetOverlay() {
     window.addEventListener('load', function () {
         closeOverlayRight();
@@ -60,7 +77,6 @@ function resetOverlay() {
         closeOverlayRight();
     });
 }
-
 
 /**
  * Opens the overlay displaying a big task card.
@@ -98,8 +114,6 @@ function closeOverlayTop() {
         }, { once: true });
     }
 }
-
-
 
 /**
  * Opens the overlay for adding a task to the board.
@@ -145,32 +159,6 @@ function closeOverlayRight() {
         });
     }
 }
-
-/**
- * Sets up the event listener to close the add task overlay when clicking outside it.
- * 
- * @function
- * @name EventListener#click
- */
-
-
-/**
- * Closes the add task overlay when the window loads.
- * 
- * @function
- * @name EventListener#load
- */
-
-
-/**
- * Closes the add task overlay before the window unloads.
- * 
- * @function
- * @name EventListener#beforeunload
- */
-window.addEventListener('beforeunload', function () {
-    closeOverlayRight();
-});
 
 /**
  * Clears all task columns on the board.
@@ -305,8 +293,6 @@ function toggleConfirmationOverlay() {
     }
 }
 
-
-
 /**
  * Deletes a task from the board.
  * 
@@ -432,3 +418,13 @@ function filterTask() {
         }
     }
 }
+
+/**
+ * Closes the add task overlay before the window unloads.
+ * 
+ * @function
+ * @name EventListener#beforeunload
+ */
+window.addEventListener('beforeunload', function () {
+    closeOverlayRight();
+});
