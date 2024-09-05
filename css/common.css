@@ -121,6 +121,7 @@
     stroke-width: 4px; 
 }
 
+/* input container */
 .input-container {
     border-bottom: solid gray 1px;
     margin-top: 8px;
@@ -236,7 +237,3 @@
         opacity: 0;
     }
 }
-
-
-
-
