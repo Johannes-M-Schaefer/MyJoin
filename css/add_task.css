@@ -641,7 +641,6 @@ li:hover {
   justify-content: flex-end;
   background-color: white;
   gap: 20px;
-  padding-left: 200px;
 }
 
 .form_button {
@@ -775,38 +774,11 @@ li:hover {
   }
 }
 
-@media(max-width: 780px) {
-  .add_task_form_buttons {
-    padding-left: 160px;
-  }
-}
-
-@media(max-width: 740px) {
-  .add_task_form_buttons {
-    padding-left: 130px;
-  }
-}
-
-@media(max-width: 700px) {
-  .add_task_form_buttons {
-    padding-left: 100px;
-  }
-}
-
-@media(max-width: 680px) {
-  .add_task_form_buttons {
-    padding-left: 60px;
-  }
-}
-
 @media(max-width: 630px) {
   .add_task {
     padding: 50px 0 0 20px;
   }
 
-  .add_task_form_buttons {
-    padding-left: 40px;
-  }
 }
 @media(max-width: 600px) {
   .add_task {
@@ -815,7 +787,6 @@ li:hover {
   }
 
   .add_task_form_buttons {
-    padding-right: 15px;
     padding-left: 0;
   }
 }
