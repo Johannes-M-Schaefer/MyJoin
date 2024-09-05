@@ -44,14 +44,130 @@ function docId(id) {
 }
 
 /**
- * Validates the form submission. Prevents the default submission if the form is invalid.
- * @param {Event} event - The form submit event.
+ * Initializes the current user by performing setup tasks including
+ * loading HTML content, loading current users, and setting up event listeners.
+ * Handles any errors during initialization.
  */
-function validateFormSubmit(event) {
-  const form = event.target;
-  if (!form.checkValidity()) {
-    event.preventDefault();
-    event.stopPropagation();
+async function initCurrentUser() {
+  try {
+    await includeHTML();
+    checkFirstPage();
+    await loadCurrentUsers();
+    showDropUser();
+    setupEventListeners();
+    setupOrientationCheck();
+  } catch (error) {
+    console.error('Error initializing current user:', error);
+    // Optional: Display an error message to the user
+  }
+}
+
+/**
+ * Sets up event listeners for various elements.
+ */
+function setupEventListeners() {
+  docId("log_out").addEventListener('click', logOut);
+  document.querySelector('.drop-logo').addEventListener('click', toggleDropdown);
+  window.addEventListener('click', handleClickOutsideDropdown);
+}
+
+/**
+ * Sets up listeners for window resize and orientation change events.
+ * Periodically checks the orientation of the window.
+ */
+function setupOrientationCheck() {
+  window.addEventListener('resize', checkOrientation);
+  window.addEventListener('orientationchange', checkOrientation);
+  checkOrientation(); // Initial orientation check
+  setInterval(checkOrientation, 500); // Periodic orientation check
+}
+
+/**
+ * Handles clicks outside the dropdown menu to close it if it is open.
+ * 
+ * @param {MouseEvent} event - The click event.
+ */
+function handleClickOutsideDropdown(event) {
+  if (!event.target.matches('.drop-logo')) {
+    let dropdowns = document.getElementsByClassName("dropdown-content");
+    for (let i = 0; i < dropdowns.length; i++) {
+      let openDropdown = dropdowns[i];
+      if (openDropdown.classList.contains('show')) {
+        openDropdown.classList.remove('show');
+      }
+    }
+  }
+}
+
+/**
+ * Toggles the visibility of the dropdown menu associated with 'header_dropdown' element.
+ */
+function toggleDropdown() {
+  docId("header_dropdown").classList.toggle("show");
+}
+
+/**
+ * Checks if the user is logged in based on the presence of 'isLoggedIn' in localStorage.
+ * If the user is not logged in and the current page is not '/index.html', redirects
+ * the user to the login page ('index.html').
+ */
+function checkFirstPage() {
+  const isLoggedIn = localStorage.getItem('isLoggedIn');
+  const path = window.location.pathname;
+
+  if (!isLoggedIn && path !== '/index.html') {
+    window.location.href = 'index.html';
+  }
+}
+
+/**
+ * Loads the current user object from the '/currentUser' path in the Firebase Realtime Database.
+ * Updates the global `currentUser` variable with the retrieved user.
+ * @async
+ */
+async function loadCurrentUsers() {
+  try {
+    let loadedCurrentUser = await getData('/currentUser');
+    if (loadedCurrentUser && typeof loadedCurrentUser === 'object') {
+      currentUser = Object.values(loadedCurrentUser)[0];
+    } else {
+      currentUser = null; // Fallback if data is not valid
+    }
+  } catch (error) {
+    console.error('Error fetching current user data:', error);
+    currentUser = null; // Fallback on error
+  }
+}
+
+/**
+ * Loads all user objects from the '/users' path in the Firebase Realtime Database.
+ * Updates the global `users` array with the retrieved users.
+ * @async
+ */
+async function loadUsers() {
+  let loadedUsers = await getData('/users');
+  users.push(...Object.values(loadedUsers));
+}
+
+/**
+ * Logs out the current user by deleting their data from the database and clearing local storage.
+ * Redirects the user to the login page after logout.
+ * @async
+ */
+async function logOut() {
+  await deleteData("/currentUser");
+  localStorage.removeItem('isLoggedIn');
+  window.location.href = './index.html';
+}
+
+/**
+ * Updates the user interface to display the initials of the current user.
+ * This function assumes `currentUser` is already loaded.
+ */
+function showDropUser() {
+  if (currentUser) {
+    const initials = getInitials(currentUser.user_name);
+    docId("drop_user").innerHTML = initials;
   }
 }
 
@@ -65,6 +181,15 @@ function getTaskById(id) {
 }
 
 /**
+ * Retrieves a contact object from the `contacts` array based on the provided ID.
+ * @param {string} id - The ID of the contact to retrieve.
+ * @returns {Object|undefined} The contact object matching the ID, or undefined if not found.
+ */
+function getContactById(id) {
+  return contacts.find(contact => contact.id === id);
+}
+
+/**
  * Deletes an item from an array based on its ID.
  * @param {Array} array - The array from which to delete an item.
  * @param {string} idToDelete - The ID of the item to delete.
@@ -72,6 +197,18 @@ function getTaskById(id) {
  */
 function deleteById(array, idToDelete) {
   return array.filter(item => item.id !== idToDelete);
+}
+
+/**
+ * Validates the form submission. Prevents the default submission if the form is invalid.
+ * @param {Event} event - The form submit event.
+ */
+function validateFormSubmit(event) {
+  const form = event.target;
+  if (!form.checkValidity()) {
+    event.preventDefault();
+    event.stopPropagation();
+  }
 }
 
 /**
@@ -159,32 +296,21 @@ async function postData(path = '', data = {}) {
  */
 async function getData(path = "") {
   try {
-    // URL-Zusammenstellung und Abruf der Daten
     const url = `${STORAGE_URL}${path}.json`;
     const response = await fetch(url);
 
-    // Überprüfung, ob die Antwort des Servers erfolgreich ist (Status 200–299)
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status} ${response.statusText}`);
     }
 
-    // Versuch, die Antwort in JSON umzuwandeln
     const data = await response.json();
-
-    // Überprüfen, ob die Daten gültig sind und nicht null
-    if (data === null || data === undefined) {
-      return null;
-    }
-
-    return data;
+    return data || null;
 
   } catch (error) {
-    // Fehlerprotokollierung für Debugging
     console.error('Error fetching data from', path, ':', error);
     return null;
   }
 }
-
 
 /**
  * Deletes data from the Firebase Realtime Database at a specified path.
@@ -231,49 +357,6 @@ async function deleteTaskById(taskId) {
 async function updateTaskById(taskId, task) {
   await updateData('/tasks/' + taskId, task);
 }
-
-/**
- * Retrieves a contact object from the `contacts` array based on the provided ID.
- * @param {string} id - The ID of the contact to retrieve.
- * @returns {Object|undefined} The contact object matching the ID, or undefined if not found.
- */
-function getContactById(id) {
-  return contacts.find(contact => contact.id === id);
-}
-
-/**
- * Loads all user objects from the '/users' path in the Firebase Realtime Database.
- * Updates the global `users` array with the retrieved users.
- * @async
- */
-async function loadUsers() {
-  let loadedUsers = await getData('/users');
-  users.push(...Object.values(loadedUsers));
-}
-
-/**
- * Loads the current user object from the '/currentUser' path in the Firebase Realtime Database.
- * Updates the global `currentUser` variable with the retrieved user.
- * @async
- */
-async function loadCurrentUsers() {
-  try {
-    // Daten vom Server abrufen
-    let loadedCurrentUser = await getData('/currentUser');
-
-    // Überprüfen, ob die Antwort gültig ist
-    if (loadedCurrentUser && typeof loadedCurrentUser === 'object') {
-      // Objektwerte extrahieren
-      currentUser = Object.values(loadedCurrentUser)[0];
-    } else {
-      currentUser = null; // oder setzen Sie hier eine sinnvolle Standardaktion
-    }
-  } catch (error) {
-    console.error('Error fetching current user data:', error);
-    currentUser = null; // oder setzen Sie hier eine sinnvolle Standardaktion
-  }
-}
-
 
 /**
  * Initializes contacts by loading, sorting, and enriching them with initials and colors.
@@ -325,42 +408,6 @@ function enrichContacts() {
 }
 
 /**
- * Updates the user interface to display the initials of the current user.
- * This function assumes `currentUser` is already loaded.
- */
-function showDropUser() {
-  if (currentUser) {
-    const initials = getInitials(currentUser.user_name);
-    docId("drop_user").innerHTML = initials;
-  }
-}
-
-/**
- * Logs out the current user by deleting their data from the database and clearing local storage.
- * Redirects the user to the login page after logout.
- * @async
- */
-async function logOut() {
-  await deleteData("/currentUser");
-  localStorage.removeItem('isLoggedIn');
-  window.location.href = './index.html';
-}
-
-/**
- * Checks if the user is logged in based on the presence of 'isLoggedIn' in localStorage.
- * If the user is not logged in and the current page is not '/index.html', redirects
- * the user to the login page ('index.html').
- */
-function checkFirstPage() {
-  const isLoggedIn = localStorage.getItem('isLoggedIn');
-  const path = window.location.pathname;
-
-  if (!isLoggedIn && path !== '/index.html') {
-    window.location.href = 'index.html';
-  }
-}
-
-/**
  * Hides elements with the class 'hide-if-logged-out' if the user is not logged in.
  * Returns true if the user is logged in, and false otherwise.
  * @returns {boolean} True if the user is logged in, false otherwise.
@@ -404,35 +451,6 @@ function isMobileDevice() {
 }
 
 /**
- * Adds an error animation to input fields in the contacts form when validation fails.
- * @async
- */
-/* async function addErrorAnimation() {
-  const fields = [
-    { fieldId: 'edit-name', parentId: 'edit-name-contacts' },
-    { fieldId: 'edit-mobile', parentId: 'edit-mobile-contacts' },
-    { fieldId: 'edit-email', parentId: 'edit-email-contacts' }
-  ];
-
-  fields.forEach(({ parentId }) => {
-    let parentDiv = docId(parentId);
-
-    parentDiv.classList.add('input-error');
-
-    parentDiv.addEventListener('animationend', function () {
-      parentDiv.classList.remove('input-error');
-    }, { once: true });
-  });
-} */
-
-/**
- * Toggles the visibility of the dropdown menu associated with 'header_dropdown' element.
- */
-function toggleDropdown() {
-  docId("header_dropdown").classList.toggle("show");
-}
-
-/**
  * Sets the minimum date of the input field specified by 'id' to today's date.
  * Prevents selection of past dates.
  *
@@ -441,60 +459,4 @@ function toggleDropdown() {
 function setDateRestriction(id) {
   const today = new Date().toISOString().split('T')[0];
   docId(id).setAttribute('min', today);
-}
-
-/**
- * Initializes the current user by performing setup tasks including
- * including HTML content, loading current users, and setting up event listeners.
- * Handles any errors during initialization.
- */
-async function initCurrentUser() {
-  try {
-    await includeHTML();
-    checkFirstPage(); // Check if it's the first page
-    await loadCurrentUsers(); // Load current user data
-    showDropUser(); // Display user-related dropdown or similar UI element
-    setupEventListeners(); // Set up event listeners
-    setupOrientationCheck(); // Set up orientation change detection
-  } catch (error) {
-    console.error('Error initializing current user:', error);
-    // Optional: Display an error message to the user
-  }
-}
-
-/**
- * Sets up event listeners for various elements.
- */
-function setupEventListeners() {
-  docId("log_out").addEventListener('click', logOut);
-  document.querySelector('.drop-logo').addEventListener('click', toggleDropdown);
-  window.addEventListener('click', handleClickOutsideDropdown);
-}
-
-/**
- * Handles clicks outside the dropdown menu to close it if it is open.
- * 
- * @param {MouseEvent} event - The click event.
- */
-function handleClickOutsideDropdown(event) {
-  if (!event.target.matches('.drop-logo')) {
-    let dropdowns = document.getElementsByClassName("dropdown-content");
-    for (let i = 0; i < dropdowns.length; i++) {
-      let openDropdown = dropdowns[i];
-      if (openDropdown.classList.contains('show')) {
-        openDropdown.classList.remove('show');
-      }
-    }
-  }
-}
-
-/**
- * Sets up listeners for window resize and orientation change events.
- * Periodically checks the orientation of the window.
- */
-function setupOrientationCheck() {
-  window.addEventListener('resize', checkOrientation);
-  window.addEventListener('orientationchange', checkOrientation);
-  checkOrientation(); // Initial orientation check
-  setInterval(checkOrientation, 500); // Periodic orientation check
 }

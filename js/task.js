@@ -2,7 +2,6 @@ let assignedContacts = [];
 let subtasks = [];
 let sendTaskStatus = 'To do';
 
-// Event Listener for DOMContentLoaded to initialize the application
 document.addEventListener("DOMContentLoaded", init);
 
 /**

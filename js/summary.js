@@ -1,9 +1,3 @@
-/**
- * Handles the DOMContentLoaded event. This function includes HTML content, checks the current page, 
- * and sets up event listeners and intervals for various functionalities based on the current page.
- * 
- * @event
- */
 document.addEventListener("DOMContentLoaded", init);
 
 /**
