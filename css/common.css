@@ -1,3 +1,7 @@
+body {
+    font-family: 'Open Sans', sans-serif;
+}
+
 /* general */
 .mg-top {
     margin-top: 20px;
