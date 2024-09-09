@@ -148,7 +148,7 @@ function resetPriorityDOM() {
 /**
  * Toggles the display of the contacts dropdown.
  */
-function toggleContacsDropdown(event) {
+/* function toggleContacsDropdown(event) {
   let content = docId('assignedDropdown');
   let category = docId('addCategory');
   let otherDropdown = docId('categoryDropdown');
@@ -161,6 +161,21 @@ function toggleContacsDropdown(event) {
   addOffSetToHeight(isShowing ? '' : content, category);
 
   if (event) event.stopPropagation();
+} */
+function toggleContacsDropdown() {
+  let content = docId('assignedDropdown');
+  let category = docId('addCategory');
+  let otherDropdown = docId('categoryDropdown');
+
+  closeOtherDropdown(otherDropdown, 'add_subtasks');
+  if (content.classList.contains('show')) {
+    content.classList.remove('show');
+    addOffSetToHeight('', category);
+  } else {
+    content.classList.add('show');
+    addOffSetToHeight(content, category);
+  }
+  event.stopPropagation();
 }
 
 /**

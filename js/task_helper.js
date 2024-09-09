@@ -87,6 +87,7 @@ function getTaskFromForm() {
    * Toggles the display of the contacts dropdown.
    */
   function toggleContacsDropdown(event) {
+    loadAndDisplayContacts();
     let content = docId('assignedDropdown');
     let category = docId('addCategory');
     let otherDropdown = docId('categoryDropdown');
@@ -147,18 +148,6 @@ function getTaskFromForm() {
     }
   }
   
-  /**
-   * Adds contacts to the task form's contacts dropdown.
-   */
-  async function addTaskContacts() {
-    await initContacts();
-    let contactDropdown = docId('assignedDropdown');
-    contactDropdown.innerHTML = '';
-    for (let i = 0; i < contacts.length; i++) {
-      const contact = contacts[i];
-      contactDropdown.innerHTML += templateBuildContactDropdown(contact, true);
-    }
-  }
   
   /**
    * Selects or deselects a contact for the task.

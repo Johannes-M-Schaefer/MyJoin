@@ -284,3 +284,15 @@ function setDateRestriction(id) {
   const today = new Date().toISOString().split('T')[0];
   docId(id).setAttribute('min', today);
 }
+
+  /**
+   * Adds contacts to the task form's contacts dropdown.
+   */
+  async function loadAndDisplayContacts() {
+    let contactDropdown = docId('assignedDropdown');
+    contactDropdown.innerHTML = '';
+    for (let i = 0; i < contacts.length; i++) {
+      const contact = contacts[i];
+      contactDropdown.innerHTML += templateBuildContactDropdown(contact, true);
+    }
+  }

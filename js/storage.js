@@ -3,6 +3,7 @@
  * @constant {string} STORAGE_URL
  */
 const STORAGE_URL = 'https://remotestorage-bc72d-default-rtdb.firebaseio.com/';
+/* https://join-gruppenarbeit-c2942-default-rtdb.europe-west1.firebasedatabase.app/ */
 
 /**
  * Array of colors used for task categories or other visual elements.

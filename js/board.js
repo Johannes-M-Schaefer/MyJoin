@@ -113,7 +113,7 @@ async function openOverlayRight() {
         await fetch('template_add_task.html')
             .then(response => response.text())
             .then(html => { form.innerHTML = html; });
-        addTaskContacts();
+        loadAndDisplayContacts();
         setTimeout(() => {
             overlay.classList.remove('hide'); 
             overlay.classList.add('show'); 
@@ -205,16 +205,6 @@ function prepareTaskOverlayFooter(id) {
     const content = docId('overlay_top_content');
     content.innerHTML += templateEditOverlayFooter(id);
 }
-
-/**
- * Loads contacts and displays them in the add task overlay.
- * 
- * @async
- */
-async function loadAndDisplayContacts() {
-    await addTaskContacts();
-}
-
 
 /**
  * Filters tasks based on the search input.
