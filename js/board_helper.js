@@ -195,7 +195,7 @@ function handleAssignedContacts(assignedTo) {
     assignedContacts = [];
     if (Array.isArray(assignedTo)) {
         for (let i = 0; i < assignedTo.length; i++) {
-            selectContact(assignedTo[i]);
+            toggleContactSelection(assignedTo[i]);
         }
     }
 }

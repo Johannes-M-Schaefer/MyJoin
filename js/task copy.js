@@ -404,7 +404,7 @@ function showSendTaskPopup() {
   setTimeout(() => {
     docId('hidden_container').classList.remove('visible');
     docId('hidden_popup').classList.remove('visible');
-  }, 2000);
+  }, 500);
 }
 
 /**

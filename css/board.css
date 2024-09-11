@@ -546,7 +546,6 @@ margin-left: 2px;
     display: flex;
     justify-content: flex-start;
     gap: 30px;
-    padding: 10px;
     cursor: default;
   }
 }

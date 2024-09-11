@@ -46,10 +46,9 @@ function setupEventListeners() {
  * Periodically checks the orientation of the window.
  */
 function setupOrientationCheck() {
+  checkOrientation(); 
   window.addEventListener('resize', checkOrientation);
   window.addEventListener('orientationchange', checkOrientation);
-  checkOrientation(); // Initial orientation check
-  setInterval(checkOrientation, 500); // Periodic orientation check
 }
 
 /**
@@ -289,10 +288,21 @@ function setDateRestriction(id) {
    * Adds contacts to the task form's contacts dropdown.
    */
   async function loadAndDisplayContacts() {
+    
     let contactDropdown = docId('assignedDropdown');
     contactDropdown.innerHTML = '';
     for (let i = 0; i < contacts.length; i++) {
       const contact = contacts[i];
       contactDropdown.innerHTML += templateBuildContactDropdown(contact, true);
     }
+    renderContactList();
   }
+
+  /**
+ * Stoppt das Event-Propagation, falls verfügbar.
+ */
+function stopEventPropagation(event) {
+  if (event && typeof event.stopPropagation === 'function') {
+    event.stopPropagation();
+  }
+}

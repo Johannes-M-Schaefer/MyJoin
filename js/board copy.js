@@ -355,7 +355,7 @@ function fillTask(task) {
     selectPriority(task.priority);
     assignedContacts = [];
     for (let i = 0; i < task.assignedTo.length; i++) {
-        selectContact(task.assignedTo[i]);
+        toggleContactSelection(task.assignedTo[i]);
     }
     docId('addCategoryInputField').innerHTML = task.content;
     subtasks = [];

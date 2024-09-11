@@ -11,7 +11,7 @@ function templateBuildContactDropdown(contact) {
   let checkbox = '';
 
   return `
-    <li onclick="selectContact('${contactId}')" class="" id="${contactId}">
+    <li onclick="toggleContactSelection('${contactId}')" class="" id="${contactId}">
         <div class="marquee-container">
           <div class="contact_div">${initials}${contactName}</div>
       ${checkbox}

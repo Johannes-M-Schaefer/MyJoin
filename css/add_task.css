@@ -36,7 +36,7 @@ body {
   border: none;
   border-bottom: 1px solid #d1d1d1;
   height: 38px;
-  padding: 0px 49px 13px 0px;
+  padding: 0px 49px 0px 0px;
   margin: 0px 16px 16px 0px;
   line-height: 38px;
   font-weight: 400;
@@ -205,6 +205,7 @@ body {
   border-radius: 10px;
   padding: 18px 10px 18px 10px;
   gap: 10px;
+  transition: all 0.3s ease;
 }
 
 .prio_urgent {
@@ -246,7 +247,7 @@ body {
   padding: 0 12px; 
   position: absolute;
   z-index: 1;
-  width: 432px;
+  width: -webkit-fill-available;
   transition: max-height 0.5s ease-out, padding 0.5s ease-out;
 }
 
@@ -254,6 +255,9 @@ body {
   max-height: 200px; 
   padding: 12px; 
   overflow-y: auto; 
+  box-shadow: -2px 2px 5px rgba(0, 0, 0, 0.1), 2px 2px 2px rgba(0, 0, 0, 0.2);
+  border-radius: 0 0 9px 9px;
+  top: 50px;
 }
 
 .add_assigned_to_span {
@@ -318,15 +322,16 @@ li:hover {
 .contact_container_img {
   border-radius: 50%;
   margin: 1px;
-  width: 37px;
-  height: 37px;
-  min-width: 37px;
-  min-height: 37px; 
+  width: 35px;
+  height: 35px;
+  min-width: 35px;
+  min-height: 35px; 
   display: flex;
   justify-content: center;
   align-items: center;
   color: white;
   margin: 0px -8px 0px 0px;
+  font-size: 1em;
 }
 
 .custom_checkbox label {
@@ -407,19 +412,29 @@ li:hover {
   padding: 0 12px; 
   position: absolute;
   z-index: 1;
-  width: 90vw;
+  width: -webkit-fill-available;
   transition: max-height 0.5s ease-out, padding 0.5s ease-out;
+  transition: all 0.3s ease;
+
+  
 }
 
 .category_to_dropdown_content.show {
   max-height: 200px; 
-  padding: 12px; 
   overflow-y: auto; 
+  box-shadow: -2px 2px 5px rgba(0, 0, 0, 0.1), 2px 2px 2px rgba(0, 0, 0, 0.2);
+  border-radius: 0 0 9px 9px;
+  display: block;
+  padding: 10px 0px 4px 10px;
+}
+
+.category_to_dropdown_content span:hover {
+  transition: all 0.3s ease;
 }
 
 
 .category_to_dropdown_content span:hover {
-  background-color: #d2e3ff;
+  background-color: rgba(0, 0, 0, 0.1);
 }
 
 .category_to_dropdown_content span {
@@ -430,13 +445,6 @@ li:hover {
   padding: 5px 0px 5px 10px;
   margin: 0px 0px 0px -9px;
   border-radius: 10px;
-}
-
-.category_to_dropdown_content.show {
-  display: block;
-  width: 432px;
-  max-height: 200px;
-  padding: 10px 0px 4px 10px;
 }
 
 .add_category {

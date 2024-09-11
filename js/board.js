@@ -53,6 +53,7 @@ function setupAddTaskOverlayClickCloseListener() {
     });
 }
 
+
 /**
  * Closes the add task overlay when the window loads.
  */
@@ -167,11 +168,13 @@ async function showTasks(reloadContacts) {
  */
 async function editOverlayTask(id) {
     clearTaskOverlay();
-    await loadOverlayTemplates();
+    await loadTaskOverlay();
+/*     await loadOverlayTemplates(); */
     const task = getTaskById(id);
     prepareTaskOverlayFooter(id);
     await loadAndDisplayContacts();
     fillTask(task);
+    renderAssignedContact();
     setDateRestriction('taskDueDate');
 }
 

@@ -22,13 +22,13 @@
           <span class="add_priority_span"><b>Priority</b></span>
         </div>
         <div class="priority_buttons">
-          <button type="button" class="button_urgent priority_inactive" id="urgentPriority" onclick="selectPriority('urgent')">
+          <button type="button" class="button_urgent priority_inactive click-animation" id="urgentPriority" onclick="selectPriority('urgent')">
             Urgent<img src="./img/prio_red.png" class="prio_icons" id="prioRed" />
           </button>
-          <button type="button" class="button_medium priority_active" id="mediumPriority" onclick="selectPriority('medium')">
+          <button type="button" class="button_medium priority_active click-animation" id="mediumPriority" onclick="selectPriority('medium')">
             Medium<img src="./img/prio_orange_white.png" class="prio_icons"  id="prioOrange"/>
           </button>
-          <button type="button" class="button_low priority_inactive" id="lowPriority" onclick="selectPriority('low')">
+          <button type="button" class="button_low priority_inactive click-animation" id="lowPriority" onclick="selectPriority('low')">
             Low<img src="./img/prio_green.png" class="prio_icons" id="prioGreen"/>
           </button>
         </div>
@@ -41,7 +41,7 @@
           >
 
           <div class="dropdown_task">
-            <div class="dropdown_header" onclick="toggleContacsDropdown(event)">
+            <div class="dropdown_header" id="taskContactsButton" onclick="toggleContacsDropdown(event)">
               <span class="dropdown_span" id="selectAssignedTo">Select contacts to assign</span>
               <span class="dropdown_arrow">&#9660;</span>
             </div>
