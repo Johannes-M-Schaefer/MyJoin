@@ -77,7 +77,7 @@ function templateBuildSubtask(subtask, index) {
       <div class="subtask_icons_div">
         <img src="./img/delete_icon.png" alt="delete" class="subtask_icon_delete" onclick="deleteSubtask(${index}); event.stopPropagation()">
         <div class="subtask_divider"></div>
-        <img class="subtask_check_icon" src="./img/check.png" onclick="saveSubtask(${index})">
+        <img class="subtask_check_icon" src="./img/check.png" onclick="saveSubtask(${index}, event)">
       </div>
     </div>
   `;

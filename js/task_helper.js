@@ -425,6 +425,13 @@ function renderAssignedContact() {
  */
 function selectCategory(text) {
   docId('addCategoryInputField').innerHTML = text;
+  toggleCategoryDropdown();
+}
+
+function toggleCategoryUI() {
+  if (condition) {
+    
+  }
 }
 
 /**

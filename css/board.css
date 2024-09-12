@@ -317,7 +317,7 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(255, 255, 255, 0.8);
+  background: rgba(0, 0, 0, 0.2);
   z-index: 1000;
   align-items: center;
   justify-content: center;
@@ -325,31 +325,31 @@ body {
   overflow: hidden;
 }
 
-.overlay_top.show {
+.overlay_top.show .overlay_border {
   display: flex;
-  animation: slideInFromBottom 0.6s cubic-bezier(0.25, 0.1, 0.25, 1) forwards; /* Smooth slide-in */
+  animation: slideInFromBottom 0.6s; 
+  /* animation: slideInFromBottom 0.6s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;  */
 }
 
-.overlay_top.hide {
-  animation: slideOutToBottom 0.6s cubic-bezier(0.25, 0.1, 0.25, 1) forwards; /* Smooth slide-out */
+.overlay_top.hide .overlay_border {
+  animation: slideOutToBottom 0.6s; 
+  /* animation: slideOutToBottom 0.6s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;  */
   display: flex;
 }
 
 .overlay_border {
   height: 90vh;
-  width: 600px;
+  width: 550px;
   background-color: white;
   border-radius: 30px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   border: 2px solid #f2f2f2;
   position: fixed;
-  bottom: -100%;
-  top: 50%;
-  left: 50%;
   padding-right: 20px;
-  transform: translate(-50%, -50%);
   transition: bottom 0.3s ease;
   box-sizing: border-box;
+  justify-content: center;
+  align-items: center;
 }
 
 .overlay_top_content {
@@ -376,6 +376,11 @@ body {
 
 .card_complete:hover {
   cursor: pointer;
+  box-shadow: 0 0 4px rgba(0, 93, 255);
+}
+
+.card_complete:active {
+  box-shadow: none !important;
 }
 
 .card_category {
@@ -536,7 +541,6 @@ margin-left: 2px;
   display: flex;
   flex-direction: column;
   gap: 5px;
-  min-height: 150px;
   max-height: 210px;
   overflow: hidden;
   overflow-y: auto;
@@ -560,7 +564,7 @@ margin-left: 2px;
 }
 
 .overlay_subtask {
-  padding: 10px;
+  padding: 5px;
   width: max-content;
   margin: 5px;
   transition: all 0.3s ease;
