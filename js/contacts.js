@@ -105,10 +105,10 @@ async function addContact(event) {
     const form = document.getElementById("add-contact-form");
     const formData = new FormData(form);
     
-    // Verwende get() um die Werte abzurufen
+    // Verwende get() um die Werte abzurufen und prüfe, ob mobile null ist
     const name = formData.get("name");
     const email = formData.get("email");
-    const mobile = formData.get("mobile");
+    const mobile = formData.get("mobile") || "";  // Setze mobile auf "" falls es null/undefined ist
 
     try {
         await postData("/contacts", { name, email, mobile });
@@ -121,6 +121,7 @@ async function addContact(event) {
     init();
     return true;
 }
+
 
 
 /**
@@ -153,6 +154,7 @@ async function deleteContact(i) {
     init();
     docId('selected-container').classList.add('d-none');
     closeSelectedContactOverlay();
+    closeEditContactOverlay();
     showDeletePopup();
 }
 
