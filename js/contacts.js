@@ -102,7 +102,14 @@ function switchToNewContact(i, contactContainer, selectedContainer) {
  */
 async function addContact(event) {
     event.preventDefault();
-    const { name, email, mobile } = new FormData(document.getElementById("add-contact-form"));
+    const form = document.getElementById("add-contact-form");
+    const formData = new FormData(form);
+    
+    // Verwende get() um die Werte abzurufen
+    const name = formData.get("name");
+    const email = formData.get("email");
+    const mobile = formData.get("mobile");
+
     try {
         await postData("/contacts", { name, email, mobile });
         clearAddForm();
@@ -114,6 +121,7 @@ async function addContact(event) {
     init();
     return true;
 }
+
 
 /**
  * Edits a contact in the database based on its index in the contacts array.

@@ -353,7 +353,7 @@ body {
 }
 
 .overlay_top_content {
-  padding: 48px 0 48px 20px;
+  padding: 20px 0 48px 20px;
   overflow: hidden;
   overflow-y: auto;
   max-height: 75vh;
@@ -574,7 +574,6 @@ margin-left: 2px;
 }
 
 .overlay_subtask:hover {
-  background-color: #d2e3ff;
   width: fit-content;
   border-radius: 8px;
   cursor: default;
@@ -583,6 +582,10 @@ margin-left: 2px;
 .overlay_subtask input {
   width: 20px;
   height: 20px;;
+}
+
+.overlay_subtask input:hover {
+  cursor: pointer;
 }
 
 .overlay_category_span {
