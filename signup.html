@@ -43,10 +43,11 @@
                 <input placeholder="Email" id="user_email" name="user_email" type="email" required>
                 <img src="./img/mail.png" alt="Email">
             </div>
-            <div class="input_container">
-                <input placeholder="Password" name="user_password" type="password" required>
+            <div class="input_container password_container">
+                <input placeholder="Password" name="user_password" type="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required>
                 <img src="./img/lock.png" alt="Password">
             </div>
+            <div class="hint">Das Passwort muss mindestens 8 Zeichen lang sein, eine Zahl, einen Großbuchstaben und einen Kleinbuchstaben enthalten.</div>
             <div class="input_container" id="confirm-input">
                 <input placeholder="Confirm Password" id="user_password_confirm" name="user_password_confirm"
                     type="password" required>
