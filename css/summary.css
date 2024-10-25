@@ -95,7 +95,7 @@ body {
 }
 
 .trans_or_tlb:hover {
-    transform: scale(1.03);
+    transform: scale(1.02);
 }
 
 .trans_or_tl {
@@ -103,7 +103,7 @@ body {
 }
 
 .trans_or_tl:hover {
-    transform: scale(1.1);
+    transform: scale(1.03);
 }
 
 .trans_or_tr {
@@ -111,7 +111,7 @@ body {
 }
 
 .trans_or_tr:hover {
-    transform: scale(1.1);
+    transform: scale(1.03);
 }
 
 .trans_or_r {
@@ -119,7 +119,7 @@ body {
 }
 
 .trans_or_r:hover {
-    transform: scale(1.12);
+    transform: scale(1.03);
 }
 
 .parting_line {
